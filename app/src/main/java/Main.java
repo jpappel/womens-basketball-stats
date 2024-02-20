@@ -3,7 +3,7 @@ import java.nio.file.Paths;
 
 import io.javalin.Javalin;
 
-public class HelloWorld {
+public class Main {
     private static final String RESOURCE_ROOT = "src/main/resources/public";
 
     public static void main(String[] args) {
