@@ -22,7 +22,14 @@ dependencies {
     // This dependency is used by the application.
     implementation(libs.guava)
 
+    // Web framework
     implementation("io.javalin:javalin:6.1.0")
+    //json library
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.16.1")
+
+    //logging library
+    implementation("org.slf4j:slf4j-simple:2.0.10")
+
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
