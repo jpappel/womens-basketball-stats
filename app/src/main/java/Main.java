@@ -1,8 +1,11 @@
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.sql.Connection;
 
 import io.javalin.Javalin;
+import io.javalin.rendering.template.JavalinJte;
+
+import java.sql.Connection;
+
 
 public class Main {
     private static final String RESOURCE_ROOT = "src/main/resources/public";
@@ -27,6 +30,7 @@ public class Main {
 
         Javalin app = Javalin.create(config -> {
             config.staticFiles.add("/public");
+            config.fileRenderer(new JavalinJte());
         })
                 .get("/add-player", ctx -> {
                     byte[] htmlContent = Files.readAllBytes(Paths.get(RESOURCE_ROOT, "add_player.html"));
@@ -43,6 +47,7 @@ public class Main {
                     ctx.contentType("application/json");
                     ctx.result(player.toJson());
                 })
+                .get("/hello", ctx -> ctx.render("hello.jte"))
                 .start(7070);
 
     }
