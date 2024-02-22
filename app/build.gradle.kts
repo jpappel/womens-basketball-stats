@@ -24,6 +24,13 @@ dependencies {
 
     // Web framework
     implementation("io.javalin:javalin:6.1.0")
+
+    // JTE template engine
+    implementation("gg.jte:jte:3.1.9")
+
+    // Javalin rendering
+    implementation("io.javalin:javalin-rendering:6.1.0")
+
     //json library
     implementation("com.fasterxml.jackson.core:jackson-databind:2.16.1")
 
