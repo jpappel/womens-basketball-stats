@@ -37,6 +37,8 @@ dependencies {
     //logging library
     implementation("org.slf4j:slf4j-simple:2.0.10")
 
+    //java sqlite database connector
+    implementation("org.xerial:sqlite-jdbc:3.45.1.0")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
