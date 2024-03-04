@@ -34,3 +34,4 @@ build
 
 # compiled binaries
 app/bin/*
+app/jte-classes/*
