@@ -37,7 +37,7 @@ public class DBTableManager implements RosterDataManager {
     }
 
     @Override
-    public void addPlayer(Player player) {
+    public boolean addPlayer(Player player) {
         String sql = "INSERT INTO Players(playerName, position, playerNum) VALUES(?, ?, ?)";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, player.getName());
@@ -45,9 +45,10 @@ public class DBTableManager implements RosterDataManager {
             pstmt.setInt(3, player.getNumber());
             //pstmt.setString(4, player.getSeniority());
             pstmt.executeUpdate();
-            System.out.println("Player added successfully.");
+            return true;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
+            return false;
         }
     }
 
@@ -92,7 +93,7 @@ public class DBTableManager implements RosterDataManager {
     }
 
     @Override
-    public void deletePlayer(int ID) {
+    public boolean deletePlayer(int ID) {
         String sql = "DELETE FROM Players WHERE id = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, ID);
@@ -102,8 +103,29 @@ public class DBTableManager implements RosterDataManager {
             } else {
                 System.out.println("Player with ID " + ID + " not found.");
             }
+            return true;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
+
+
+    public int getPlayerID(Player player) {
+        String sql = "SELECT id FROM Players WHERE playerName = ? AND position = ? AND playerNum = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, player.getName());
+            pstmt.setString(2, player.getPosition());
+            pstmt.setInt(3, player.getNumber());
+            //pstmt.setString(4, player.getSeniority());
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+            return -1;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return -1;
         }
     }
 }
