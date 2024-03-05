@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.ArrayList;
 
 /**
@@ -8,6 +9,10 @@ public class Roster {
 
     public Roster(){
         roster = new ArrayList<Player>();
+    }
+
+    public Roster(List<Player> players){
+        roster = new ArrayList<Player>(players);
     }
     
     /**
