@@ -31,8 +31,11 @@ dependencies {
     // Javalin rendering
     implementation("io.javalin:javalin-rendering:6.1.0")
 
+    //TODO: consolidate these into a single library
     //json library
     implementation("com.fasterxml.jackson.core:jackson-databind:2.16.1")
+    //another json library
+    implementation("com.google.code.gson:gson:2.10.1")
 
     //logging library
     implementation("org.slf4j:slf4j-simple:2.0.10")
