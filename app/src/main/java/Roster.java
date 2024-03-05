@@ -1,10 +1,11 @@
 import java.util.List;
 import java.util.ArrayList;
+import com.google.gson.Gson;
 
 /**
  * Represents a roster of players
  */
-public class Roster {
+public class Roster implements java.io.Serializable {
     ArrayList<Player> roster;
 
     public Roster(){
@@ -48,6 +49,11 @@ public class Roster {
             }
         }
         return null;
+    }
+
+    public String toJson() {
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 
 }
