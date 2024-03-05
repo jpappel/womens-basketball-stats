@@ -36,7 +36,6 @@ public class DatabaseManager {
      * - id: INTEGER (Primary Key)
      * - playerName: VARCHAR(40) (Not Null)
      * - position: VARCHAR(30) (Not Null)
-     * - seniority: CHAR(8) (Not Null)
      * - playerNum: INT (Not Null)
      *
      * @param conn the Connection object representing the database connection
@@ -46,7 +45,6 @@ public class DatabaseManager {
                 + " id INTEGER PRIMARY KEY,\n"
                 + " playerName VARCHAR(40) NOT NULL,\n"
                 + " position VARCHAR(30) NOT NULL,\n"
-                + " seniority CHAR(8) NOT NULL,\n "
                 + " playerNum INT NOT NULL\n"
                 + ");";
         executeStatement(conn, sql, "Table created successfully.");
