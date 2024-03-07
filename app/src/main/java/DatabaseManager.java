@@ -20,7 +20,14 @@ public class DatabaseManager {
         }
     }
 
-    // Method to refactor try-catch block for executing SQL statements
+    /**
+     * Executes the provided SQL statement using the given database connection,
+     * and prints a success message upon successful execution.
+     *
+     * @param conn           the database connection
+     * @param sql            the SQL statement to execute
+     * @param successMessage the message to print upon successful execution
+     */
     private static void executeStatement(Connection conn, String sql, String successMessage) {
         try (Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
