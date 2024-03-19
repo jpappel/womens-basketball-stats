@@ -8,6 +8,7 @@ public class Player implements java.io.Serializable{
     private String name;
     private String position;
     private int number;
+    private boolean isPlaying;
 
     @JsonCreator
     public Player(@JsonProperty("name") String name, @JsonProperty("position") String position,
@@ -15,6 +16,7 @@ public class Player implements java.io.Serializable{
         this.name = name;
         this.position = position;
         this.number = number;
+        this.isPlaying = true;
     }
 
     /**
@@ -69,6 +71,23 @@ public class Player implements java.io.Serializable{
      */
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    /**
+     * Returns whether the player is playing or not.
+     *
+     * @return true if the player is playing, false otherwise
+     */
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void setActive(){
+        this.isPlaying = true;
+    }
+
+    public void setInactive(){
+        this.isPlaying = false;
     }
 
     /**

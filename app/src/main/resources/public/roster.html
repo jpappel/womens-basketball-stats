@@ -61,6 +61,7 @@
             // Implement the logic to edit player information here
         }
         function deletePlayer(name) {
+            if (confirm("Are you sure you want to delete the player " + name + "?")) {
             fetch("/players/" + name, {
                 method: "DELETE",
                 headers: {
@@ -79,6 +80,7 @@
                 }
             })
         }
+    }
     </script>
 </body>
 </html>
