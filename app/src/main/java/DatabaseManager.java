@@ -44,16 +44,43 @@ public class DatabaseManager {
      * - playerName: VARCHAR(40) (Not Null)
      * - position: VARCHAR(30) (Not Null)
      * - playerNum: INT (Not Null)
+     * - playerActivity: BOOLEAN (Default 0)
      *
      * @param conn the Connection object representing the database connection
      */
-    public static void createTable(Connection conn) {
+    public static void createPlayersTable(Connection conn) {
         String sql = "CREATE TABLE IF NOT EXISTS Players (\n"
                 + " id INTEGER PRIMARY KEY,\n"
                 + " playerName VARCHAR(40) NOT NULL,\n"
                 + " position VARCHAR(30) NOT NULL,\n"
-                + " playerNum INT NOT NULL\n"
+                + " playerNum INT NOT NULL,\n"
+                + " playerActivity INTEGER DEFAULT 1\n"
                 + ");";
-        executeStatement(conn, sql, "Table created successfully.");
+        executeStatement(conn, sql, "Players table created successfully.");
+    }
+
+    /**
+     * Creates a table named "Players" in the database if it does not already exist.
+     *
+     * @param conn the Connection object representing the database connection
+     */
+    public static void createPlayerStatsTable(Connection conn) {
+        String sql = "CREATE TABLE IF NOT EXISTS PlayerStatistics (" +
+                " id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                " playerID INTEGER,\n" +
+                " freeThrowsAttempted INTEGER,\n" +
+                " threePointsAttempted INTEGER,\n" +
+                " freeThrowsMade INTEGER,\n" +
+                " threePointsMade INTEGER,\n" +
+                " freeThrowPercentage REAL GENERATED ALWAYS AS (freeThrowsMade / freeThrowsAttempted),\n" +
+                " threePointPercentage REAL GENERATED ALWAYS AS (threePointsMade / threePointsAttempted),\n" +
+                " FOREIGN KEY (playerID) REFERENCES Players(id) ON UPDATE CASCADE ON DELETE CASCADE\n" +
+                ");";
+        executeStatement(conn, sql, "Player stats table created successfully.");
     }
 }
+
+
+
+
+
