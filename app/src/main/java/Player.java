@@ -8,6 +8,11 @@ public class Player implements java.io.Serializable{
     private String name;
     private String position;
     private int number;
+    private int threePointersMade;
+    private int threePointersAttempted;
+    private int freeThrowsMade;
+    private int freeThrowAttempts;
+    private boolean isPlaying;
 
     @JsonCreator
     public Player(@JsonProperty("name") String name, @JsonProperty("position") String position,
@@ -15,6 +20,12 @@ public class Player implements java.io.Serializable{
         this.name = name;
         this.position = position;
         this.number = number;
+        this.isPlaying = true;
+        this.threePointersMade = 0;
+        this.threePointersAttempted = 0;
+        this.freeThrowsMade = 0;
+        this.freeThrowAttempts = 0;
+
     }
 
     /**
@@ -44,6 +55,42 @@ public class Player implements java.io.Serializable{
         return number;
     }
 
+     /**
+     * Gets the total number of successful three-point shots made by the player.
+     * 
+     * @return the number of three-pointers made
+     */
+    public int getThreePointersMade() {
+        return threePointersMade;
+    }
+
+    /**
+     * Gets the total number of three-point shots attempted by the player.
+     * 
+     * @return the number of three-pointer attempts
+     */
+    public int getThreePointersAttempted() {
+        return threePointersAttempted;
+    }
+
+    /**
+     * Gets the total number of successful free throw shots made by the player.
+     * 
+     * @return the number of free throws made
+     */
+    public int getFreeThrowsMade() {
+        return freeThrowsMade;
+    }
+
+    /**
+     * Gets the total number of free throw shots attempted by the player.
+     * 
+     * @return the number of free throw attempts
+     */
+    public int getFreeThrowAttempts() {
+        return freeThrowAttempts;
+    }
+
     /**
      * Sets the name of the player.
      *
@@ -52,6 +99,7 @@ public class Player implements java.io.Serializable{
     public void setName(String name) {
         this.name = name;
     }
+    
 
     /**
      * Sets the position of the player.
@@ -72,11 +120,64 @@ public class Player implements java.io.Serializable{
     }
 
     /**
+     * Returns whether the player is playing or not.
+     *
+     * @return true if the player is playing, false otherwise
+     */
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void setActive(){
+        this.isPlaying = true;
+    }
+
+    public void setInactive(){
+        this.isPlaying = false;
+    }
+    /**
+     * Updates the total number of successful three-point shots made.
+     * 
+     * @param threePointersMade the new total of three-pointers made
+     */
+    public void setThreePointersMade(int threePointersMade) {
+        this.threePointersMade = threePointersMade;
+    }
+
+    /**
+     * Updates the total number of three-point shots attempted.
+     * 
+     * @param threePointersAttempted the new total of three-pointer attempts
+     */
+    public void setThreePointersAttempted(int threePointersAttempted) {
+        this.threePointersAttempted = threePointersAttempted;
+    }
+
+    /**
+     * Updates the total number of successful free throw shots made.
+     * 
+     * @param freeThrowsMade the new total of free throws made
+     */
+    public void setFreeThrowsMade(int freeThrowsMade) {
+        this.freeThrowsMade = freeThrowsMade;
+    }
+
+    /**
+     * Updates the total number of free throw shots attempted.
+     * 
+     * @param freeThrowAttempts the new total of free throw attempts
+     */
+    public void setFreeThrowAttempts(int freeThrowAttempts) {
+        this.freeThrowAttempts = freeThrowAttempts;
+    }
+
+    /**
      * Converts the player object to JSON format.
      *
      * @return the player object in JSON format
      */
     public String toJson() {
-        return String.format("{\"name\": \"%s\", \"position\": \"%s\", \"number\": \"%s\"}", name, position, number);
+        return String.format("{\"name\": \"%s\", \"position\": \"%s\", \"number\": %d, \"threePointersMade\": %d, \"threePointersAttempted\": %d, \"freeThrowsMade\": %d, \"freeThrowAttempts\": %d}", 
+                             name, position, number, threePointersMade, threePointersAttempted, freeThrowsMade, freeThrowAttempts);
     }
 }

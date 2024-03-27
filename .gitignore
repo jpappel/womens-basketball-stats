@@ -29,8 +29,14 @@ replay_pid*
 # Ignore Gradle build output directory
 build
 
+# database files
+*.db
+
+
+
 # IDE
 .vscode
+.idea
 
 # compiled binaries
 app/bin/*

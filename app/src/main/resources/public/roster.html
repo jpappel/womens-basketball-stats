@@ -2,12 +2,15 @@
 <html>
 <head>
     <title>Basketball Team Roster</title>
-    <style>
-        /* Add your custom CSS styles here */
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <h1>Basketball Team Roster</h1>
+    <header>
+        <h1><a href="/">Moravian University Women's Basketball</a></h1>
+        <h2>Team Roster</h2>
+    </header>
 
     <table>
         <thead>
@@ -27,10 +30,57 @@
     <a href="add_player.html">Add Player</a>
 
     <script>
-        // Use JavaScript to fetch data from the API and populate the table dynamically
+        document.addEventListener("DOMContentLoaded", function() {
+            // Fetch player data from Java API using AJAX or fetch API
+            // Replace the URL with the actual endpoint of your Java API
+            fetch("/api/roster")
+            .then(response => response.json())
+            .then(data => {
+                // Populate the table with player data
+                const tableBody = document.querySelector("tbody");
+                data.roster.forEach(player => {
+                    const row = `
+                        <tr>
+                            <td>${player.name}</td>
+                            <td>${player.number}</td>
+                            <td>${player.position}</td>
+                            <td>
+                                <button onclick="editPlayer()">Edit</button>
+                                <button onclick="deletePlayer(&quot;${player.name}&quot;)">Delete</button>
+                            </td>
+                        </tr>
+                    `;
+                    tableBody.insertAdjacentHTML("beforeend", row);
+                });
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        });
         function editPlayer() {
             // Implement the logic to edit player information here
         }
+        function deletePlayer(name) {
+            if (confirm("Are you sure you want to delete the player " + name + "?")) {
+            fetch("/players/" + name, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle response from Java API
+                if(data.success) {
+                    alert("Player deleted successfully!");
+                    // Refresh the page to reflect the changes
+                    location.reload();
+                } else {
+                    alert("Failed to delete player. Please try again.");
+                }
+            })
+        }
+    }
     </script>
 </body>
 </html>

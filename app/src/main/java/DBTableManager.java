@@ -6,6 +6,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implements the RosterDataManager interface and provides methods
+ * for managing player data stored in the Players database table.
+ */
 public class DBTableManager implements RosterDataManager {
 
     private final Connection conn;
@@ -14,7 +18,11 @@ public class DBTableManager implements RosterDataManager {
         this.conn = conn;
     }
 
-
+    /**
+     * Retrieves a player from the database based on the specified ID.
+     * @param ID the ID of the player to retrieve
+     * @return the Player object if found, null otherwise
+     */
     @Override
     public Player getPlayer(int ID) {
         String sql = "SELECT * FROM Players WHERE id = ?";
@@ -36,8 +44,13 @@ public class DBTableManager implements RosterDataManager {
         return null;
     }
 
+    /**
+     * Adds a new player to the database.
+     * @param player the Player object to add
+     * @return true if the player was added successfully, false otherwise
+     */
     @Override
-    public void addPlayer(Player player) {
+    public boolean addPlayer(Player player) {
         String sql = "INSERT INTO Players(playerName, position, playerNum) VALUES(?, ?, ?)";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, player.getName());
@@ -45,12 +58,17 @@ public class DBTableManager implements RosterDataManager {
             pstmt.setInt(3, player.getNumber());
             //pstmt.setString(4, player.getSeniority());
             pstmt.executeUpdate();
-            System.out.println("Player added successfully.");
+            return true;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
+            return false;
         }
     }
 
+    /**
+     * Retrieves the entire roster of players from the database.
+     * @return the Roster object containing all players
+     */
     @Override
     public Roster getRoster() {
         List<Player> players = new ArrayList<>();
@@ -72,6 +90,13 @@ public class DBTableManager implements RosterDataManager {
         return new Roster(players);
     }
 
+    /**
+     * Updates an existing player in the database.
+     * @param ID the ID of the player to update
+     * @param name the new name for the player
+     * @param position the new position for the player
+     * @param playerNumber the new player number
+     */
     @Override
     public void updatePlayer(int ID, String name, String position, int playerNumber) {
         String sql = "UPDATE Players SET playerName = ?, position = ?, playerNum = ? WHERE id = ?";
@@ -91,8 +116,13 @@ public class DBTableManager implements RosterDataManager {
         }
     }
 
+    /**
+     * Deletes a player from the database based on the specified ID.
+     * @param ID the ID of the player to delete
+     * @return true if the player was deleted successfully, false otherwise
+     */
     @Override
-    public void deletePlayer(int ID) {
+    public boolean deletePlayer(int ID) {
         String sql = "DELETE FROM Players WHERE id = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, ID);
@@ -102,8 +132,33 @@ public class DBTableManager implements RosterDataManager {
             } else {
                 System.out.println("Player with ID " + ID + " not found.");
             }
+            return true;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Retrieves the ID of a player from the database.
+     * @param player the Player object to retrieve the ID for
+     * @return the ID of the player if found, -1 otherwise
+     */
+    public int getPlayerID(Player player) {
+        String sql = "SELECT id FROM Players WHERE playerName = ? AND position = ? AND playerNum = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, player.getName());
+            pstmt.setString(2, player.getPosition());
+            pstmt.setInt(3, player.getNumber());
+            //pstmt.setString(4, player.getSeniority());
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+            return -1;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return -1;
         }
     }
 }
