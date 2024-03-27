@@ -44,7 +44,7 @@ public class DatabaseManager {
      * - playerName: VARCHAR(40) (Not Null)
      * - position: VARCHAR(30) (Not Null)
      * - playerNum: INT (Not Null)
-     * - playerActivity: BOOLEAN (Default 0)
+     * - playerActivity: INT (Default 1 (True))
      *
      * @param conn the Connection object representing the database connection
      */
@@ -60,7 +60,16 @@ public class DatabaseManager {
     }
 
     /**
-     * Creates a table named "Players" in the database if it does not already exist.
+     * Creates a table named "PlayerStatistics" in the database if it does not already exist.
+     * The table has the following columns:
+     * - id: INTEGER (Primary Key)
+     * - playerID: INTEGER (Foreign Key)
+     * - freeThrowsAttempted: INT
+     * - threePointsAttempted: INT
+     * - freeThrowsMade: INT
+     * - threePointsMade: INT
+     * - freeThrowPercentage: REAL (Generated Column)
+     * - threePointPercentage: REAL (Generated Column)
      *
      * @param conn the Connection object representing the database connection
      */
