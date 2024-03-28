@@ -22,8 +22,11 @@ public class Main {
             return;
         }
 
-        //creates table if it does not exist
-        DatabaseManager.createTable(conn);
+        //creates players table if it does not exist
+        DatabaseManager.createPlayersTable(conn);
+        // creates player stats table if it does not exist
+        DatabaseManager.createPlayerStatsTable(conn);
+
         final DBTableManager dbTableManager = new DBTableManager(conn);
 
         Javalin app = Javalin.create(config -> {

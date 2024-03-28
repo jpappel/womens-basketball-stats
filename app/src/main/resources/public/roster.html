@@ -9,7 +9,11 @@
 <body>
     <header>
         <h1><a href="/">Moravian University Women's Basketball</a></h1>
+<<<<<<< HEAD
         <h2>Basketball Team Roster</h2>
+=======
+        <h2>Team Roster</h2>
+>>>>>>> 795dcc6cc255615751e145580e6cbef034468c71
     </header>
 
     <table>
@@ -61,6 +65,10 @@
             // Implement the logic to edit player information here
         }
         function deletePlayer(name) {
+<<<<<<< HEAD
+=======
+            if (confirm("Are you sure you want to delete the player " + name + "?")) {
+>>>>>>> 795dcc6cc255615751e145580e6cbef034468c71
             fetch("/players/" + name, {
                 method: "DELETE",
                 headers: {
@@ -79,6 +87,10 @@
                 }
             })
         }
+<<<<<<< HEAD
+=======
+    }
+>>>>>>> 795dcc6cc255615751e145580e6cbef034468c71
     </script>
 </body>
 </html>
