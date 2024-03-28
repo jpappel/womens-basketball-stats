@@ -24,4 +24,8 @@ public class Page {
         return scripts;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
 }

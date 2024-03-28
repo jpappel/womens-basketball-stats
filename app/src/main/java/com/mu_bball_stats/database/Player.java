@@ -13,7 +13,7 @@ public class Player implements java.io.Serializable{
     private String position;
     private int number;
     private boolean isPlaying;
-    public TreeMap<String, PlayerStat> stats;
+    public TreeMap<Integer, PlayerStat> stats;
 
     @JsonCreator
     public Player(@JsonProperty("name") String name, @JsonProperty("position") String position,
@@ -101,8 +101,12 @@ public class Player implements java.io.Serializable{
         this.isPlaying = isPlaying;
     }
 
-    public void addStat(String statsID, PlayerStat stat){
+    public void addStat(int statsID, PlayerStat stat){
         stats.put(statsID, stat);
+    }
+
+    public void setStat(TreeMap<Integer, PlayerStat> stats){
+        this.stats = stats;
     }
 
     /**
