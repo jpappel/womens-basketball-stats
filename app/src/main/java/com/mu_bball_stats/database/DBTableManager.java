@@ -1,3 +1,5 @@
+package com.mu_bball_stats.database;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -82,6 +84,7 @@ public class DBTableManager implements RosterDataManager {
                         //rs.getInt("id"),
                         //rs.getString("seniority")
                 );
+                player.setID(rs.getInt("id"));
                 players.add(player);
             }
         } catch (SQLException e) {

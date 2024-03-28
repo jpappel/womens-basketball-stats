@@ -1,3 +1,5 @@
+package com.mu_bball_stats.database;
+
 import java.util.List;
 import java.util.ArrayList;
 import com.google.gson.Gson;
@@ -6,7 +8,7 @@ import com.google.gson.Gson;
  * Represents a roster of players
  */
 public class Roster implements java.io.Serializable {
-    ArrayList<Player> roster;
+    protected ArrayList<Player> roster;
 
     public Roster(){
         roster = new ArrayList<Player>();
@@ -15,16 +17,18 @@ public class Roster implements java.io.Serializable {
     public Roster(List<Player> players){
         roster = new ArrayList<Player>(players);
     }
+
+    public List<Player> getPlayers(){
+        return roster;
+    }
     
     /**
      * Adds a player to the roster.
      *
-     * @param name     the name of the player
-     * @param position the position of the player
-     * @param number   the number of the player
+     * @param player the player to be added
      */
-    public void addPlayer(String name, String position, int number){
-        roster.add(new Player(name, position, number));
+    public void addPlayer(Player player){
+        roster.add(player);
     }
 
     /**
@@ -45,6 +49,15 @@ public class Roster implements java.io.Serializable {
     public Player getPlayerByName(String name){
         for (Player player : roster){
             if (player.getName().equals(name)){
+                return player;
+            }
+        }
+        return null;
+    }
+
+    public Player getPlayerByID(int id){
+        for (Player player : roster){
+            if (player.getID() == id){
                 return player;
             }
         }
