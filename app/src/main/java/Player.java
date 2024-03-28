@@ -12,15 +12,15 @@ public class Player implements java.io.Serializable{
     private int threePointersAttempted;
     private int freeThrowsMade;
     private int freeThrowAttempts;
-    private boolean isPlaying;
+    private int isPlaying;
 
     @JsonCreator
     public Player(@JsonProperty("name") String name, @JsonProperty("position") String position,
-                  @JsonProperty("number") int number) {
+                  @JsonProperty("number") int number, @JsonProperty("isPlaying") int isPlaying){
         this.name = name;
         this.position = position;
         this.number = number;
-        this.isPlaying = true;
+        this.isPlaying = isPlaying;
         this.threePointersMade = 0;
         this.threePointersAttempted = 0;
         this.freeThrowsMade = 0;
@@ -124,16 +124,16 @@ public class Player implements java.io.Serializable{
      *
      * @return true if the player is playing, false otherwise
      */
-    public boolean isPlaying() {
+    public int isPlaying() {
         return isPlaying;
     }
 
     public void setActive(){
-        this.isPlaying = true;
+        this.isPlaying = 1;
     }
 
     public void setInactive(){
-        this.isPlaying = false;
+        this.isPlaying = 0;
     }
     /**
      * Updates the total number of successful three-point shots made.

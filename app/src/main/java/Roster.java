@@ -24,7 +24,7 @@ public class Roster implements java.io.Serializable {
      * @param number   the number of the player
      */
     public void addPlayer(String name, String position, int number){
-        roster.add(new Player(name, position, number));
+        roster.add(new Player(name, position, number, 1));
     }
 
     /**

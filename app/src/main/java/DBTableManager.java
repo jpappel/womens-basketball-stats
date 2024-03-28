@@ -33,7 +33,8 @@ public class DBTableManager implements RosterDataManager {
                 return new Player(
                         rs.getString("playerName"),
                         rs.getString("position"),
-                        rs.getInt("playerNum")
+                        rs.getInt("playerNum"),
+                        rs.getInt("isPlaying")
                         //rs.getInt("id"),
                         //rs.getString("seniority")
                 );
@@ -51,7 +52,7 @@ public class DBTableManager implements RosterDataManager {
      */
     @Override
     public boolean addPlayer(Player player) {
-        String sql = "INSERT INTO Players(playerName, position, playerNum) VALUES(?, ?, ?)";
+        String sql = "INSERT INTO Players(playerName, position, playerNum, isPlaying) VALUES(?, ?, ?, 1)";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, player.getName());
             pstmt.setString(2, player.getPosition());
@@ -78,7 +79,8 @@ public class DBTableManager implements RosterDataManager {
                 Player player = new Player(
                         rs.getString("playerName"),
                         rs.getString("position"),
-                        rs.getInt("playerNum")
+                        rs.getInt("playerNum"),
+                        rs.getInt("isPlaying")
                         //rs.getInt("id"),
                         //rs.getString("seniority")
                 );
@@ -129,6 +131,24 @@ public class DBTableManager implements RosterDataManager {
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Player removed successfully.");
+            } else {
+                System.out.println("Player with ID " + ID + " not found.");
+            }
+            return true;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
+
+    @Override
+    public boolean archivePlayer(int ID) {
+        String sql = "UPDATE Players SET isPlaying = 0 WHERE id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, ID);
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Player archived successfully.");
             } else {
                 System.out.println("Player with ID " + ID + " not found.");
             }

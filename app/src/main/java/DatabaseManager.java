@@ -54,7 +54,7 @@ public class DatabaseManager {
                 + " playerName VARCHAR(40) NOT NULL,\n"
                 + " position VARCHAR(30) NOT NULL,\n"
                 + " playerNum INT NOT NULL,\n"
-                + " playerActivity INTEGER DEFAULT 1\n"
+                + " isPlaying INT NOT NULL\n"
                 + ");";
         executeStatement(conn, sql, "Players table created successfully.");
     }
