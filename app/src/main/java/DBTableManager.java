@@ -137,29 +137,6 @@ public class DBTableManager implements RosterDataManager {
         }
     }
 
-    /**
-     * Retrieves the ID of a player from the database.
-     * @param player the Player object to retrieve the ID for
-     * @return the ID of the player if found, -1 otherwise
-     */
-    public int getPlayerID(Player player) {
-        String sql = "SELECT id FROM Players WHERE playerName = ? AND position = ? AND playerNum = ?";
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, player.getName());
-            pstmt.setString(2, player.getPosition());
-            pstmt.setInt(3, player.getNumber());
-            //pstmt.setString(4, player.getSeniority());
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("id");
-            }
-            return -1;
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-            return -1;
-        }
-    }
-
     @Override
     public boolean addPlayerStats(Player player) {
         String sql = "INSERT INTO PlayerStatistics (threePointsMade, threePointsAttempted, freeThrowsMade, freeThrowsAttempted) VALUES (?, ?, ?, ?)";
@@ -194,7 +171,6 @@ public class DBTableManager implements RosterDataManager {
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
-            return false;
         }
     }
 
@@ -228,14 +204,16 @@ public class DBTableManager implements RosterDataManager {
             pstmt.setInt(1, ID);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                return new Player(
-                        rs.getInt("threePointsMade"),
-                        rs.getInt("threePointsAttempted"),
-                        rs.getInt("freeThrowsMade"),
-                        rs.getInt("freeThrowsAttempted"),
-                        rs.getDouble("threePointPercentage"),
-                        rs.getDouble("freeThrowPercentage")
-                );
+                //FIXME: use the correct implementation
+                return null;
+                //return new Player(
+                //        rs.getInt("threePointsMade"),
+                //        rs.getInt("threePointsAttempted"),
+                //        rs.getInt("freeThrowsMade"),
+                //        rs.getInt("freeThrowsAttempted"),
+                //        rs.getDouble("threePointPercentage"),
+                //        rs.getDouble("freeThrowPercentage")
+                //);
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
