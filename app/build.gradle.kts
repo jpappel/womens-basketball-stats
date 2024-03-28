@@ -8,6 +8,7 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     application
+    id("gg.jte.gradle") version("3.1.9")
 }
 
 repositories {
@@ -54,4 +55,8 @@ java {
 application {
     // Define the main class for the application.
     mainClass = "Main"
+}
+
+jte {
+    precompile()
 }
