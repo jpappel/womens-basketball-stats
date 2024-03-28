@@ -62,6 +62,22 @@ header > h1 {
     text-align: center; 
 }
 
+/* Button Styling */
+button {
+    background-color: var(--dark-blue);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 8px 12px;
+}
+
+button:hover,
+button:active {
+    background-color: var(--light-blue);
+}
+
 /* Navigation Styling Buttons */
 nav {
     margin: 1em 0;

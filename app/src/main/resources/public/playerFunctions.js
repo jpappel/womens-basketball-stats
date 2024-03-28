@@ -1,15 +1,35 @@
 function togglePlayerActivity(id, newActivity){
-    fetch("/players/" + id, {
+    const params = new URLSearchParams();
+    params.append("active", newActivity);
+
+    fetch(`/players/${id}?${params.toString()}`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json"
-        },
-        body: JSON.stringify({active: newActivity})
+        }
     }).then(response => {
         if(response.ok){
+            alert("Player activity toggled successfully");
             location.reload();
         } else {
             alert("Failed to toggle player activity");
+        }
+    });
+}
+
+function addPlayersStats(sessionStats){
+    fetch("/players/stats", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(sessionStats)
+    }).then(response => {
+        if(response.ok){
+            alert("Players stats added successfully");
+            location.reload();
+        } else {
+            alert("Failed to add players stats");
         }
     });
 }
