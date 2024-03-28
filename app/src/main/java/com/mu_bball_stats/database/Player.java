@@ -93,6 +93,7 @@ public class Player implements java.io.Serializable{
      *
      * @return true if the player is playing, false otherwise
      */
+    @JsonProperty("isPlaying")
     public boolean isPlaying() {
         return isPlaying;
     }
