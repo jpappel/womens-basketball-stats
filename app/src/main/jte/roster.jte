@@ -19,7 +19,7 @@
         <label for="activityFilter">Show Inactive Players</label>
     </div>
     </fieldset>
-    <table>
+    <table class="tablesorter">
         <thead>
             <tr>
                 <th>ID</th>
@@ -31,7 +31,7 @@
             </tr>
         </thead>
         @for(Player player : roster.getPlayers())
-        <tr>
+        <tr id="playerRow_${player.getID()}" class="${player.isPlaying() ? "" : "inactive"}">
             <td>${player.getID()}</td>
             <td><a href="/players/${player.getID()}">${player.getName()}</a></td>
             <td>${player.getNumber()}</td>
@@ -39,12 +39,25 @@
             <td>${player.isPlaying() ? "Yes" : "No"}</td>
             <td>
                 <button onclick="editPlayer()">Edit</button>
-                <button onclick="togglePlayerActivity(${player.getID()}, ${!player.isPlaying()})">${player.isPlaying() ? "Set Inactive" : "Set Activate"}</button>
+                <button onclick="togglePlayerActivity(${player.getID()}, ${!player.isPlaying()})">${player.isPlaying() ? "Set Inactive" : "Set Active"}</button>
                 <!--<button onclick="deletePlayer(&quot;${player.name}&quot;)">Delete</button>-->
             </td>
         </tr>
         @endfor
     </table>
     <a href="/add-player">Add Player</a>
+    <script>
+    document.getElementById('activityFilter').addEventListener('change', function() {
+        let showInactive = this.checked;
+        let inactiveRows = document.querySelectorAll('.inactive');
+        inactiveRows.forEach(function(row) {
+            row.style.display = showInactive ? '' : 'none';
+        });
+    });
+    $(function(){
+        $('table').tablesorter();
+
+    })
+    </script>
     `
 )

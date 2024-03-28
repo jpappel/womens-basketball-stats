@@ -11,6 +11,12 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- load jQuery and tablesorter scripts -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
+    <script type="text/javascript" src="https://mottie.github.io/tablesorter/dist/js/jquery.tablesorter.min.js"></script>
+
+    <!-- tablesorter widgets (optional) -->
+    <script type="text/javascript" src="https://mottie.github.io/tablesorter/js/jquery.tablesorter.widgets.js"></script>
     @for(String script: page.getScripts())
         <script src="/${script}"></script>
     @endfor
