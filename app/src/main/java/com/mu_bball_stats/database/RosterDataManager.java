@@ -1,3 +1,5 @@
+package com.mu_bball_stats.database;
+
 public interface RosterDataManager {
     public Player getPlayer(int ID);
     public boolean addPlayer(Player player);

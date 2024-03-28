@@ -1,3 +1,5 @@
+package com.mu_bball_stats.database;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,7 +36,8 @@ public class DBTableManager implements RosterDataManager {
                         rs.getString("playerName"),
                         rs.getString("position"),
                         rs.getInt("playerNum")
-                        //rs.getInt("playerActivity")
+                        //rs.getInt("id"),
+                        //rs.getString("seniority")
                 );
             }
         } catch (SQLException e) {
@@ -78,8 +81,10 @@ public class DBTableManager implements RosterDataManager {
                         rs.getString("playerName"),
                         rs.getString("position"),
                         rs.getInt("playerNum")
-                        //rs.getInt("playerActivity")
+                        //rs.getInt("id"),
+                        //rs.getString("seniority")
                 );
+                player.setID(rs.getInt("id"));
                 players.add(player);
             }
         } catch (SQLException e) {
@@ -102,7 +107,7 @@ public class DBTableManager implements RosterDataManager {
             pstmt.setString(1, name);
             pstmt.setString(2, position);
             pstmt.setInt(3, playerNumber);
-            //pstmt.setString(4, playerActivity);
+            //pstmt.setString(4, seniority);
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Player updated successfully.");
@@ -137,43 +142,6 @@ public class DBTableManager implements RosterDataManager {
         }
     }
 
-    @Override
-    public boolean addPlayerStats(Player player) {
-        String sql = "INSERT INTO PlayerStatistics (threePointsMade, threePointsAttempted, freeThrowsMade, freeThrowsAttempted) VALUES (?, ?, ?, ?)";
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, player.getThreePointersMade());
-            pstmt.setInt(2, player.getThreePointersAttempted());
-            pstmt.setInt(3, player.getFreeThrowsMade());
-            pstmt.setInt(4, player.getFreeThrowAttempts());
-
-            int affectedRows = pstmt.executeUpdate();
-            return affectedRows > 0;
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-            return false;
-        }
-    }
-
-    @Override
-    public void updatePlayerStats(int playerID, int threePointersMade, int threePointersAttempted, int freeThrowsMade, int freeThrowsAttempted) {
-        String sql = "UPDATE PlayerStatistics SET threePointsMade = ?, threePointsAttempted = ?, freeThrowsMade = ?, freeThrowsAttempted = ? WHERE playerID = ?";
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, threePointersMade);
-            pstmt.setInt(2, threePointersAttempted);
-            pstmt.setInt(3, freeThrowsMade);
-            pstmt.setInt(4, freeThrowsAttempted);
-
-            int rowsAffected = pstmt.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Player stats updated successfully.");
-            } else {
-                System.out.println("Player with ID " + playerID + " not found.");
-            }
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-    }
-
     /**
      * Retrieves the ID of a player from the database.
      * @param player the Player object to retrieve the ID for
@@ -196,29 +164,4 @@ public class DBTableManager implements RosterDataManager {
             return -1;
         }
     }
-
-    @Override
-    public Player getPlayerStats(int ID) {
-        String sql = "SELECT * FROM PlayerStatistics WHERE playerID = ?";
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, ID);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                //FIXME: use the correct implementation
-                return null;
-                //return new Player(
-                //        rs.getInt("threePointsMade"),
-                //        rs.getInt("threePointsAttempted"),
-                //        rs.getInt("freeThrowsMade"),
-                //        rs.getInt("freeThrowsAttempted"),
-                //        rs.getDouble("threePointPercentage"),
-                //        rs.getDouble("freeThrowPercentage")
-                //);
-            }
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-        return null;
-    }
 }
-
