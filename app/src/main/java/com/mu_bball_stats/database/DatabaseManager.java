@@ -1,3 +1,5 @@
+package com.mu_bball_stats.database;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -44,7 +46,7 @@ public class DatabaseManager {
      * - playerName: VARCHAR(40) (Not Null)
      * - position: VARCHAR(30) (Not Null)
      * - playerNum: INT (Not Null)
-     * - playerActivity: INT (Default 1 (True))
+     * - playerActivity: BOOLEAN (Default 0)
      *
      * @param conn the Connection object representing the database connection
      */
@@ -60,16 +62,7 @@ public class DatabaseManager {
     }
 
     /**
-     * Creates a table named "PlayerStatistics" in the database if it does not already exist.
-     * The table has the following columns:
-     * - id: INTEGER (Primary Key)
-     * - playerID: INTEGER (Foreign Key)
-     * - freeThrowsAttempted: INT
-     * - threePointsAttempted: INT
-     * - freeThrowsMade: INT
-     * - threePointsMade: INT
-     * - freeThrowPercentage: REAL (Generated Column)
-     * - threePointPercentage: REAL (Generated Column)
+     * Creates a table named "Players" in the database if it does not already exist.
      *
      * @param conn the Connection object representing the database connection
      */
