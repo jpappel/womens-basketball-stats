@@ -39,18 +39,20 @@
                 // Populate the table with player data
                 const tableBody = document.querySelector("tbody");
                 data.roster.forEach(player => {
-                    const row = `
-                        <tr>
-                            <td>${player.name}</td>
-                            <td>${player.number}</td>
-                            <td>${player.position}</td>
-                            <td>
-                                <button onclick="editPlayer()">Edit</button>
-                                <button onclick="deletePlayer(&quot;${player.name}&quot;)">Delete</button>
-                            </td>
-                        </tr>
-                    `;
-                    tableBody.insertAdjacentHTML("beforeend", row);
+                    if (player.isPlaying === 1) {
+                        const row = `
+                            <tr>
+                                <td>${player.name}</td>
+                                <td>${player.number}</td>
+                                <td>${player.position}</td>
+                                <td>
+                                    <button onclick="editPlayer()">Edit</button>
+                                    <button onclick="archivePlayer(&quot;${player.name}&quot;)">Archive</button>
+                                </td>
+                            </tr>
+                        `;
+                        tableBody.insertAdjacentHTML("beforeend", row);
+                    }
                 });
             })
             .catch(error => {
@@ -81,6 +83,28 @@
             })
         }
     }
+        function archivePlayer(name) {
+            if (confirm("Are you sure you want to archive the player " + name + "?")) {
+                fetch("/players/" + name, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ isPlaying: 0 }) // Update isPlaying to 0
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle response from Java API
+                    if (data.success) {
+                        alert("Player archived successfully!");
+                        // Refresh the page to reflect the changes
+                        location.reload();
+                    } else {
+                        alert("Failed to archive player. Please try again.");
+                    }
+                })
+            }
+        }
     </script>
 </body>
 </html>

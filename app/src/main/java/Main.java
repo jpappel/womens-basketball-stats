@@ -54,6 +54,7 @@ public class Main {
                     boolean addedPlayer = dbTableManager.addPlayer(player);
                     ctx.result("{\"success\": " + addedPlayer + "}");
                 })
+
                 .delete("/players/{name}", ctx -> {
                     String name = ctx.pathParam("name");
                     ctx.contentType("application/json");
@@ -69,8 +70,27 @@ public class Main {
                     boolean deletedPlayer = dbTableManager.deletePlayer(id);
                     ctx.result("{\"success\": " + deletedPlayer + "}");
                 })
+
+                .put("/players/{name}", ctx -> {
+                    String name = ctx.pathParam("name");
+                    ctx.contentType("application/json");
+
+                    //TODO: refactor
+                    Roster roster = dbTableManager.getRoster();
+                    Player player = roster.getPlayerByName(name);
+                    int id = dbTableManager.getPlayerID(player);
+                    if(id == -1){
+                        ctx.result("{\"success\": false}");
+                        return;
+                    }
+                    boolean archivedPlayer = dbTableManager.archivePlayer(id);
+                    ctx.result("{\"success\": " + archivedPlayer + "}");
+                })
+
+
                 .get("/hello", ctx -> ctx.render("hello.jte"))
                 .start(7070);
 
     }
 }
+
