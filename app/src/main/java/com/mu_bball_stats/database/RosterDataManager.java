@@ -2,6 +2,9 @@ package com.mu_bball_stats.database;
 
 import java.util.TreeMap;
 
+/**
+ * Interface for DBTableManager class that manages player and player statistics data.
+ */
 public interface RosterDataManager {
     public Player getPlayer(int ID);
     public boolean addPlayer(Player player);
