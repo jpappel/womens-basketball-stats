@@ -13,6 +13,7 @@ import java.util.Map;
 
 import com.mu_bball_stats.database.*;
 import com.mu_bball_stats.web.*;
+import com.mu_bball_stats.WebBrowser;
 
 public class Main {
     private static final String RESOURCE_ROOT = "src/main/resources/public";
@@ -166,6 +167,7 @@ public class Main {
                 ctx.result("{\"not impelemented\": \"yet\"}");
             });
                 app.start(7070);
+                new WebBrowser().main(args);
 
 
     }
