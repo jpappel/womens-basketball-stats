@@ -2,6 +2,10 @@ package com.mu_bball_stats.database;
 
 import java.util.TreeMap;
 
+import com.mu_bball_stats.model.Player;
+import com.mu_bball_stats.model.PlayerStat;
+import com.mu_bball_stats.model.Roster;
+
 /**
  * Interface for DBTableManager class that manages player and player statistics data.
  */
