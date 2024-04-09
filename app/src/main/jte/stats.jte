@@ -1,9 +1,11 @@
+@import java.util.Map
 @import com.mu_bball_stats.web.Page
 @import com.mu_bball_stats.model.Player
+@import com.mu_bball_stats.model.PlayerStat
 @import com.mu_bball_stats.model.Roster
 
 @param Page page
-@param Roster Roster
+@param Roster roster
 
 
 @template.page(
@@ -31,7 +33,7 @@
             <th>Three Pointers Made</th>
             <th>Three Point Percentage</th>
         </thead>
-        <tbdoy>
+        <tbody>
         @for(Player player : roster.getPlayers())
             @for(Map.Entry<Integer,PlayerStat> entry : player.stats.entrySet())
             <tr>
@@ -43,7 +45,7 @@
               <td>${entry.getValue().getThreePointersMade()}</td>
               <td>${entry.getValue().getThreePointPercentage()}</td>
             </tr>
-        @endfor
+            @endfor
         @endfor
         </tbody>
     </table>
