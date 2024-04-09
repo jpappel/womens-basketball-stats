@@ -1,6 +1,6 @@
 @import java.util.Map
-@import com.mu_bball_stats.database.Player
-@import com.mu_bball_stats.database.PlayerStat
+@import com.mu_bball_stats.model.Player
+@import com.mu_bball_stats.model.PlayerStat
 @import com.mu_bball_stats.web.Page
 
 @param Page page

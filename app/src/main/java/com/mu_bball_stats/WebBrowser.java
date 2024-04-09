@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
 
 public class WebBrowser extends Application {
     @Override
@@ -17,6 +18,12 @@ public class WebBrowser extends Application {
 
         // Create a Scene and add the WebView to it
         Scene scene = new Scene(webView, 800, 600);
+
+        // set application icon
+        // TODO: update with correct icon
+        // FIXME: setting taskbar icon is platorm dependent
+        Image icon = new Image("https://yt3.ggpht.com/a/AATXAJynf_UM8nuvZXwz9I5GpF9GUd10r4IqIZY8qw=s900-c-k-c0xffffffff-no-rj-mo");
+        primaryStage.getIcons().add(icon);
 
         // Set the Scene on the Stage
         primaryStage.setScene(scene);
@@ -33,6 +40,7 @@ public class WebBrowser extends Application {
         });
 
         // Show the Stage
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 
