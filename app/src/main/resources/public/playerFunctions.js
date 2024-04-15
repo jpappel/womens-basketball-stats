@@ -32,4 +32,12 @@ function addPlayersStats(sessionStats){
             alert("Failed to add players stats");
         }
     });
+
+function getPlayerStats(){
+    fetch("/players/stats")
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        });
+}
 }
