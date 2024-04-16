@@ -98,16 +98,31 @@ public class Player implements java.io.Serializable{
         return isPlaying;
     }
 
+    /**
+     * Sets the playing status of the player.
+     * 
+     * @param isPlaying true if the player is currently playing, false otherwise
+     */
     public void setPlaying(boolean isPlaying){
         this.isPlaying = isPlaying;
     }
 
+    /**
+     * Adds a player stat to the player's stats collection.
+     *
+     * @param statsID the ID of the player stat
+     * @param stat the player stat to be added
+     */
     public void addStat(int statsID, PlayerStat stat){
         stats.put(statsID, stat);
     }
 
     public void setStat(TreeMap<Integer, PlayerStat> stats){
         this.stats = stats;
+    }
+
+    public TreeMap<Integer, PlayerStat> getStats(){
+        return stats;
     }
 
     /**

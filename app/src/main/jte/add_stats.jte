@@ -10,15 +10,6 @@
     content = @`
         <h2>Add Player Stats</h2>
         <table id="playerStatsTable">
-        <thead>
-        <tr>
-            <th>Player ID</th>
-            <th>Player</th>
-            <th>Free Throws Attempted</th>
-            <th>Free Throws Made</th>
-            <th>Three Pointers Attempted</th>
-            <th>Three Pointers Made</th>
-        </tr>
         </thead>
         @for(Player player : roster.getPlayers())
             @if(player.isPlaying())

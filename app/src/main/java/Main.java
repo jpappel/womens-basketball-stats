@@ -152,7 +152,7 @@ public class Main {
                 }
             })
             .post("/players/stats", ctx -> {
-                SessionStat sessionStat = ctx.bodyAsClass(SessionStat.class);
+                SessionStat sessionStat = ctx.bodyAsClass(SessionStat.class); //fix this
                 Roster roster = ctx.appData(rosterKey);
                 for(Integer id : sessionStat.getPlayerStats().keySet()){
                     PlayerStat playerStat = sessionStat.getPlayerStats().get(id);
