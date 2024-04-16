@@ -194,6 +194,7 @@ public class DBTableManager implements RosterDataManager {
             pstmt.setInt(3, stat.getThreePointersAttempted());
             pstmt.setInt(4, stat.getFreeThrowsMade());
             pstmt.setInt(5, stat.getFreeThrowAttempts());
+            // will need to be replaced with the correct column names
             pstmt.executeUpdate();
             ResultSet generatedKeys = pstmt.getGeneratedKeys();
             int statsId = generatedKeys.next() ? generatedKeys.getInt(1) : -1;
@@ -234,11 +235,7 @@ public class DBTableManager implements RosterDataManager {
             ResultSet rs = pstmt.executeQuery();
             TreeMap<Integer, PlayerStat> playerStats = new TreeMap<>();
             while (rs.next()) {
-                PlayerStat stat = new PlayerStat();
-                stat.setThreePointersMade(rs.getInt("threePointsMade"));
-                stat.setThreePointersAttempted(rs.getInt("threePointsAttempted"));
-                stat.setFreeThrowAttempts(rs.getInt("freeThrowsAttempted"));
-                stat.setFreeThrowsMade(rs.getInt("freeThrowsMade"));
+                PlayerStat stat = new PlayerStat(rs.getString(statType), rs.getInt(made), rs.getInt(attempted)); // IDK how the table is set up 
                 playerStats.put(rs.getInt("id"), stat);
             }
             return playerStats;
