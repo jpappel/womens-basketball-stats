@@ -64,17 +64,18 @@ public class DatabaseManager {
         executeStatement(conn, sql, "Players table created successfully.");
     }
 
+
     /**
      * Creates a table named "PlayerStatistics" in the database if it does not already exist.
      * The table has the following columns:
      * - id: INTEGER (Primary Key)
      * - playerID: INTEGER (Foreign Key)
-     * - freeThrowsAttempted: INT
-     * - threePointsAttempted: INT
-     * - freeThrowsMade: INT
-     * - threePointsMade: INT
-     * - freeThrowPercentage: REAL (Generated Column)
-     * - threePointPercentage: REAL (Generated Column)
+     * - practiceDate: DATE
+     * - drillNum: INTEGER
+     * - statType: TEXT (Check: statType IN ('freeThrow','threePoint') Default 'freeThrow')
+     * - attempted: INTEGER
+     * - made: INTEGER
+     * - statPercentage: REAL (Generated Always As (Made / Attempted))
      * @author Alan
      * @param conn the Connection object representing the database connection
      */
@@ -82,17 +83,18 @@ public class DatabaseManager {
         String sql = "CREATE TABLE IF NOT EXISTS PlayerStatistics (" +
                 " id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 " playerID INTEGER,\n" +
-                " freeThrowsAttempted INTEGER,\n" +
-                " threePointsAttempted INTEGER,\n" +
-                " freeThrowsMade INTEGER,\n" +
-                " threePointsMade INTEGER,\n" +
-                " freeThrowPercentage REAL GENERATED ALWAYS AS (freeThrowsMade / freeThrowsAttempted),\n" +
-                " threePointPercentage REAL GENERATED ALWAYS AS (threePointsMade / threePointsAttempted),\n" +
+                " practiceDate DATE,\n" +
+                " drillNum INTEGER,\n" +
+                " statType TEXT CHECK( statType IN ('freeThrow','threePoint') ) NOT NULL DEFAULT 'freeThrow',\n" +
+                " attempted INTEGER,\n" +
+                " made INTEGER,\n" +
+                " statPercentage REAL GENERATED ALWAYS AS (Made / Attempted),\n" +
                 " FOREIGN KEY (playerID) REFERENCES Players(id) ON UPDATE CASCADE ON DELETE CASCADE\n" +
                 ");";
         executeStatement(conn, sql, "Player stats table created successfully.");
     }
-}
+
+    }
 
 
 

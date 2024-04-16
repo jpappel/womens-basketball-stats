@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
+import java.sql.*;
+import java.time.LocalDate;
 
 import com.mu_bball_stats.model.Player;
 import com.mu_bball_stats.model.PlayerStat;
@@ -183,17 +185,21 @@ public class DBTableManager implements RosterDataManager {
      * @author J.P.
      * @param playerID the ID of the player
      * @param stat the PlayerStat object containing the statistics to be added
+     * @param practiceDate the date of the practice
+     * @param drillNum the number of the drill
+     * @param statType the type of statistic being recorded (e.g. "freeThrow", "threePoint")
      * @return the ID of the added statistics, or -1 if an error occurred
      */
     @Override
-    public int addPlayerStats(int playerID, PlayerStat stat) {
-        String sql = "INSERT INTO PlayerStatistics(playerID, threePointsMade, threePointsAttempted, freeThrowsMade, freeThrowsAttempted) VALUES(?, ?, ?, ?, ?)";
+    public int addPlayerStats(int playerID, PlayerStat stat, LocalDate practiceDate, int drillNum, String statType) {
+        String sql = "INSERT INTO PlayerStatistics (playerID, practiceDate, drillNum, statType, attempted, made) VALUES(?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, playerID);
-            pstmt.setInt(2, stat.getThreePointersMade());
-            pstmt.setInt(3, stat.getThreePointersAttempted());
-            pstmt.setInt(4, stat.getFreeThrowsMade());
-            pstmt.setInt(5, stat.getFreeThrowAttempts());
+            pstmt.setDate(2, Date.valueOf(practiceDate)); // Convert LocalDate to SQL Date
+            pstmt.setInt(3, stat.getDrillNum());
+            pstmt.setString(4, stat.getStatType());
+            pstmt.setInt(5, stat.getAttempted());
+            pstmt.setInt(6, stat.getMade());
             pstmt.executeUpdate();
             ResultSet generatedKeys = pstmt.getGeneratedKeys();
             int statsId = generatedKeys.next() ? generatedKeys.getInt(1) : -1;
@@ -208,14 +214,15 @@ public class DBTableManager implements RosterDataManager {
      * Updates player statistics in the database.
      * @author J.P.
      * @param playerID the ID of the player
-     * @param threePointersMade the new number of three-pointers made
-     * @param threePointersAttempted the new number of three-pointers attempted
-     * @param freeThrowsMade the new number of free throws made
-     * @param freeThrowsAttempted the new number of free throws attempted
+     * @param practiceDate the date of the practice
+     * @param drillNum the number of the drill
+     * @param statType the type of statistic being recorded (e.g. "freeThrow", "threePoint")
+     * @param attempted the number of attempts
+     * @param made the number of successful attempts
      */
     @Override
-    public void updatePlayerStats(int playerID, int threePointersMade, int threePointersAttempted, int freeThrowsMade,
-            int freeThrowsAttempted) {
+    public void updatePlayerStats(int playerID, LocalDate practiceDate, int drillNum, String statType, int attempted,
+            int made) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updatePlayerStats'");
     }
@@ -235,10 +242,11 @@ public class DBTableManager implements RosterDataManager {
             TreeMap<Integer, PlayerStat> playerStats = new TreeMap<>();
             while (rs.next()) {
                 PlayerStat stat = new PlayerStat();
-                stat.setThreePointersMade(rs.getInt("threePointsMade"));
-                stat.setThreePointersAttempted(rs.getInt("threePointsAttempted"));
-                stat.setFreeThrowAttempts(rs.getInt("freeThrowsAttempted"));
-                stat.setFreeThrowsMade(rs.getInt("freeThrowsMade"));
+                stat.setPracticeDate(rs.getDate("practiceDate"));
+                stat.setDrillNum(rs.getInt("drillNum"));
+                stat.setStatType(rs.getString("statType"));
+                stat.setAttempted(rs.getInt("attempted"));
+                stat.setMade(rs.getInt("made"));
                 playerStats.put(rs.getInt("id"), stat);
             }
             return playerStats;
