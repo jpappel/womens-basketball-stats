@@ -1,4 +1,4 @@
-package com.mu_bball_stats.database;
+package com.mu_bball_stats.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -93,6 +93,7 @@ public class Player implements java.io.Serializable{
      *
      * @return true if the player is playing, false otherwise
      */
+    @JsonProperty("isPlaying")
     public boolean isPlaying() {
         return isPlaying;
     }

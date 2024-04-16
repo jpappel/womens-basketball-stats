@@ -9,6 +9,7 @@ plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     application
     id("gg.jte.gradle") version("3.1.9")
+    id("org.openjfx.javafxplugin") version("0.1.0")
 }
 
 repositories {
@@ -43,6 +44,9 @@ dependencies {
 
     //java sqlite database connector
     implementation("org.xerial:sqlite-jdbc:3.45.1.0")
+
+    // JavaFX
+    implementation("org.openjfx:javafx-web:21")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -55,6 +59,11 @@ java {
 application {
     // Define the main class for the application.
     mainClass = "Main"
+}
+
+javafx {
+    version = "21"
+    modules("javafx.controls", "javafx.fxml", "javafx.web")
 }
 
 jte {

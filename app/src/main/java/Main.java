@@ -11,8 +11,14 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
-import com.mu_bball_stats.database.*;
-import com.mu_bball_stats.web.*;
+import com.mu_bball_stats.database.DBTableManager;
+import com.mu_bball_stats.database.DatabaseManager;
+import com.mu_bball_stats.web.Page;
+import com.mu_bball_stats.model.Player;
+import com.mu_bball_stats.model.PlayerStat;
+import com.mu_bball_stats.model.Roster;
+import com.mu_bball_stats.model.SessionStat;
+import com.mu_bball_stats.WebBrowser;
 
 public class Main {
     private static final String RESOURCE_ROOT = "src/main/resources/public";
@@ -155,18 +161,15 @@ public class Main {
                     roster.getPlayerByID(id).addStat(statID, playerStat);
                 }
                 ctx.contentType("application/json");
-            })
+            });
             //.get("/players/stats", ctx -> {
             //    ctx.contentType("text/html");
             //    ctx.render("stats.jte",
             //    Map.of("roster", ctx.appData(rosterKey), "page", ctx.appData(statsPage));
             //})
             //dummy page
-            .get("/page", ctx -> {
-                ctx.result("{\"not impelemented\": \"yet\"}");
-            });
-                app.start(7070);
-
+            app.start(7070);
+            new WebBrowser().main(args);
 
     }
 }

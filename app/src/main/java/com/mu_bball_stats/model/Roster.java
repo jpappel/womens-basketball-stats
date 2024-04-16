@@ -1,4 +1,4 @@
-package com.mu_bball_stats.database;
+package com.mu_bball_stats.model;
 
 import java.util.List;
 import java.util.ArrayList;

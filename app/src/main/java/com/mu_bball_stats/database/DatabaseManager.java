@@ -5,12 +5,15 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Manages the database connection and the creation of database tables.
+ */
 public class DatabaseManager {
     private static final String DB_URL = "jdbc:sqlite:WomenBBall.db";
 
     /**
      * Establishes a connection to the database.
-     *
+     * @author Alan
      * @return the Connection object representing the database connection, or null if an error occurs.
      */
     public static Connection connect() {
@@ -25,7 +28,7 @@ public class DatabaseManager {
     /**
      * Executes the provided SQL statement using the given database connection,
      * and prints a success message upon successful execution.
-     *
+     * @author Alan
      * @param conn           the database connection
      * @param sql            the SQL statement to execute
      * @param successMessage the message to print upon successful execution
@@ -46,8 +49,8 @@ public class DatabaseManager {
      * - playerName: VARCHAR(40) (Not Null)
      * - position: VARCHAR(30) (Not Null)
      * - playerNum: INT (Not Null)
-     * - playerActivity: BOOLEAN (Default 0)
-     *
+     * - playerActivity: INT (Default 1 (True))
+     * @author Alan, J.P., Megan
      * @param conn the Connection object representing the database connection
      */
     public static void createPlayersTable(Connection conn) {
@@ -56,14 +59,23 @@ public class DatabaseManager {
                 + " playerName VARCHAR(40) NOT NULL,\n"
                 + " position VARCHAR(30) NOT NULL,\n"
                 + " playerNum INT NOT NULL,\n"
-                + " playerActivity INTEGER DEFAULT 1\n"
+                + " playerActivity INT NOT NULL\n"
                 + ");";
         executeStatement(conn, sql, "Players table created successfully.");
     }
 
     /**
-     * Creates a table named "Players" in the database if it does not already exist.
-     *
+     * Creates a table named "PlayerStatistics" in the database if it does not already exist.
+     * The table has the following columns:
+     * - id: INTEGER (Primary Key)
+     * - playerID: INTEGER (Foreign Key)
+     * - freeThrowsAttempted: INT
+     * - threePointsAttempted: INT
+     * - freeThrowsMade: INT
+     * - threePointsMade: INT
+     * - freeThrowPercentage: REAL (Generated Column)
+     * - threePointPercentage: REAL (Generated Column)
+     * @author Alan
      * @param conn the Connection object representing the database connection
      */
     public static void createPlayerStatsTable(Connection conn) {

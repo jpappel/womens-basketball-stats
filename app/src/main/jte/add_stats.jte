@@ -1,6 +1,6 @@
 @import com.mu_bball_stats.web.Page
-@import com.mu_bball_stats.database.Player
-@import com.mu_bball_stats.database.Roster
+@import com.mu_bball_stats.model.Player
+@import com.mu_bball_stats.model.Roster
 
 @param Page page
 @param Roster roster

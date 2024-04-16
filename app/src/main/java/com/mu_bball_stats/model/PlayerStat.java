@@ -1,4 +1,4 @@
-package com.mu_bball_stats.database;
+package com.mu_bball_stats.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

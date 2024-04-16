@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
+import com.mu_bball_stats.model.Player;
+import com.mu_bball_stats.model.PlayerStat;
+import com.mu_bball_stats.model.Roster;
+
 /**
  * Implements the RosterDataManager interface and provides methods
  * for managing player data stored in the Players database table.
@@ -23,6 +27,7 @@ public class DBTableManager implements RosterDataManager {
 
     /**
      * Retrieves a player from the database based on the specified ID.
+     * @author Alan
      * @param ID the ID of the player to retrieve
      * @return the Player object if found, null otherwise
      */
@@ -37,8 +42,6 @@ public class DBTableManager implements RosterDataManager {
                         rs.getString("playerName"),
                         rs.getString("position"),
                         rs.getInt("playerNum")
-                        //rs.getInt("id"),
-                        //rs.getString("seniority")
                 );
             }
         } catch (SQLException e) {
@@ -49,6 +52,7 @@ public class DBTableManager implements RosterDataManager {
 
     /**
      * Adds a new player to the database.
+     * @author Alan, J.P.
      * @param player the Player object to add
      * @return true if the player was added successfully, false otherwise
      */
@@ -60,7 +64,6 @@ public class DBTableManager implements RosterDataManager {
             pstmt.setString(2, player.getPosition());
             pstmt.setInt(3, player.getNumber());
             pstmt.setInt(4, player.isPlaying() ? 1 : 0);
-            //pstmt.setString(4, player.getSeniority());
             pstmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -71,6 +74,7 @@ public class DBTableManager implements RosterDataManager {
 
     /**
      * Retrieves the entire roster of players from the database.
+     * @author Alan, J.P.
      * @return the Roster object containing all players
      */
     @Override
@@ -83,8 +87,6 @@ public class DBTableManager implements RosterDataManager {
                         rs.getString("playerName"),
                         rs.getString("position"),
                         rs.getInt("playerNum")
-                        //rs.getInt("id"),
-                        //rs.getString("seniority")
                 );
                 player.setID(rs.getInt("id"));
                 player.setPlaying(rs.getInt("playerActivity") == 1);
@@ -100,6 +102,15 @@ public class DBTableManager implements RosterDataManager {
         return new Roster(players);
     }
 
+    /**
+     * Updates a player in the database based on the specified ID.
+     * @author Alan, J.P.
+     * @param ID the ID of the player to update
+     * @param name the new name of the player
+     * @param position the new position of the player
+     * @param playerNumber the new player number
+     * @param isActive the new activity status of the player
+     */
     @Override
     public void updatePlayer(int ID, String name, String position, int playerNumber, boolean isActive) {
         String sql = "UPDATE Players SET playerName = ?, position = ?, playerNum = ?, playerActivity = ? WHERE id = ?";
@@ -109,7 +120,6 @@ public class DBTableManager implements RosterDataManager {
             pstmt.setInt(3, playerNumber);
             pstmt.setInt(4, isActive ? 1 : 0);
             pstmt.setInt(5, ID);
-            //pstmt.setString(4, seniority);
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Player updated successfully.");
@@ -123,6 +133,7 @@ public class DBTableManager implements RosterDataManager {
 
     /**
      * Deletes a player from the database based on the specified ID.
+     * @author Alan, J.P.
      * @param ID the ID of the player to delete
      * @return true if the player was deleted successfully, false otherwise
      */
@@ -146,6 +157,7 @@ public class DBTableManager implements RosterDataManager {
 
     /**
      * Retrieves the ID of a player from the database.
+     * @author Alan, J.P.
      * @param player the Player object to retrieve the ID for
      * @return the ID of the player if found, -1 otherwise
      */
@@ -155,7 +167,6 @@ public class DBTableManager implements RosterDataManager {
             pstmt.setString(1, player.getName());
             pstmt.setString(2, player.getPosition());
             pstmt.setInt(3, player.getNumber());
-            //pstmt.setString(4, player.getSeniority());
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 return rs.getInt("id");
@@ -169,7 +180,7 @@ public class DBTableManager implements RosterDataManager {
 
     /**
      * Adds player statistics to the database.
-     *
+     * @author J.P.
      * @param playerID the ID of the player
      * @param stat the PlayerStat object containing the statistics to be added
      * @return the ID of the added statistics, or -1 if an error occurred
@@ -193,6 +204,15 @@ public class DBTableManager implements RosterDataManager {
         }
     }
 
+    /**
+     * Updates player statistics in the database.
+     * @author J.P.
+     * @param playerID the ID of the player
+     * @param threePointersMade the new number of three-pointers made
+     * @param threePointersAttempted the new number of three-pointers attempted
+     * @param freeThrowsMade the new number of free throws made
+     * @param freeThrowsAttempted the new number of free throws attempted
+     */
     @Override
     public void updatePlayerStats(int playerID, int threePointersMade, int threePointersAttempted, int freeThrowsMade,
             int freeThrowsAttempted) {
@@ -200,6 +220,12 @@ public class DBTableManager implements RosterDataManager {
         throw new UnsupportedOperationException("Unimplemented method 'updatePlayerStats'");
     }
 
+    /**
+     * Returns all the stats for a player.
+     * @author J.P.
+     * @param playerID the ID of the player
+     * @return all the stats for a player
+     */
     @Override
     public TreeMap<Integer, PlayerStat> getPlayerStats(int playerID) {
         String sql = "SELECT * FROM PlayerStatistics WHERE playerID = ?";
