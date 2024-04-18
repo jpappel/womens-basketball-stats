@@ -4,20 +4,16 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PlayerStat {
-    String StatType;
+    String statType;
     int made;
     int attempted;
 
     public PlayerStat(String statType, int made, int attempted) {
-        if (statType == "TP") {
-            this.StatType = "Three Point";
-        } 
-        else if (statType == "FT") {
-            this.StatType = "Free Throw";
-        }
-        else {
+        if (!statType.equals("threePoint") && !statType.equals("freeThrow")) {
+            System.err.println("Invalid Stat Type " + statType);
             throw new IllegalArgumentException("Invalid Stat Type");
         }
+        this.statType = statType;
         this.made = made;
         this.attempted = attempted;
     }
@@ -29,7 +25,7 @@ public class PlayerStat {
             @JsonProperty("statType") String statType) {
         this.made = made;
         this.attempted = attempted;
-        this.StatType = statType;
+        this.statType = statType;
     }
 
     public double getPercentage() {
@@ -42,5 +38,9 @@ public class PlayerStat {
 
     public int getAttempted() {
         return attempted;
+    }
+
+    public String getStatType() {
+        return statType;
     }
 }

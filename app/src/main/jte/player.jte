@@ -2,9 +2,12 @@
 @import com.mu_bball_stats.model.Player
 @import com.mu_bball_stats.model.PlayerStat
 @import com.mu_bball_stats.web.Page
+@import java.util.List
+@import com.mu_bball_stats.model.Session
 
 @param Page page
 @param Player player
+@param List<Session> sessions
 
 @template.page(
   page = page,
@@ -21,28 +24,28 @@
   <table class="tablesorter">
     <thead>
       <tr>
-        <th>Stat ID</th>
-        <th>Free Throws Attempted</th>
-        <th>Free Throws Made</th>
-        <th>Free Throw Percentage</th>
-        <th>Three Pointers Attempted</th>
-        <th>Three Pointers Made</th>
-        <th>Three Point Percentage</th>
+        <th>Date</th>
+        <th>Stat Type</th>
+        <th>Made</th>
+        <th>Attempted</th>
+        <th>Perecentage</th>
       </tr>
       <tbody>
-      @for(Map.Entry<Integer,PlayerStat> entry : player.stats.entrySet())
-        <tr>
-          <td>${entry.getKey()}</td>
-          <td>${entry.getValue().getFreeThrowAttempts()}</td>
-          <td>${entry.getValue().getFreeThrowsMade()}</td>
-          <td>${entry.getValue().getFreeThrowPercentage()}</td>
-          <td>${entry.getValue().getThreePointersAttempted()}</td>
-          <td>${entry.getValue().getThreePointersMade()}</td>
-          <td>${entry.getValue().getThreePointPercentage()}</td>
-        </tr>
+      @for(Session session : sessions)
+            @for(Player player : session.getPlayerStats().keySet())
+                @for(PlayerStat stat : session.getPlayerStats().get(player))
+                    <tr>
+                        <td>${session.getDate().toString()}</td>
+                        <td>${stat.getStatType()}</td>
+                        <td>${stat.getMade()}</td>
+                        <td>${stat.getAttempted()}</td>
+                        <td>${stat.getPercentage()}</td>
+                    </tr>
+                @endfor
+            @endfor
         @else
         <tr>
-          <td colspan="7">No stats found</td>
+          <td colspan="5">No stats found</td>
         </tr>
         @endfor
       </tbody>
