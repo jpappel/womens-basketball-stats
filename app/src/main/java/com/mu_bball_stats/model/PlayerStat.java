@@ -15,8 +15,8 @@ public class PlayerStat {
         else if (statType == "FT") {
             this.StatType = "Free Throw";
         }
-        else{
-            this.StatType = "Invalid Stat Type";
+        else {
+            throw new IllegalArgumentException("Invalid Stat Type");
         }
         this.made = made;
         this.attempted = attempted;
