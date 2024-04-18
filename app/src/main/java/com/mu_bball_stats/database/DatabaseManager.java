@@ -50,7 +50,9 @@ public class DatabaseManager {
      * - position: VARCHAR(30) (Not Null)
      * - playerNum: INT (Not Null)
      * - playerActivity: INT (Default 1 (True))
-     * @author Alan, J.P., Megan
+     * @author Alan
+     * @author J.P.
+     * @author Megan
      * @param conn the Connection object representing the database connection
      */
     public static void createPlayersTable(Connection conn) {
@@ -77,21 +79,42 @@ public class DatabaseManager {
      * - made: INTEGER
      * - statPercentage: REAL (Generated Always As (Made / Attempted))
      * @author Alan
+     * @author JP
      * @param conn the Connection object representing the database connection
      */
     public static void createPlayerStatsTable(Connection conn) {
         String sql = "CREATE TABLE IF NOT EXISTS PlayerStatistics (" +
                 " id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 " playerID INTEGER,\n" +
-                " practiceDate DATE,\n" +
-                " drillNum INTEGER,\n" +
+                " sessionID INTEGER,\n" +
                 " statType TEXT CHECK( statType IN ('freeThrow','threePoint') ) NOT NULL DEFAULT 'freeThrow',\n" +
                 " attempted INTEGER,\n" +
                 " made INTEGER,\n" +
                 " statPercentage REAL GENERATED ALWAYS AS (Made / Attempted),\n" +
                 " FOREIGN KEY (playerID) REFERENCES Players(id) ON UPDATE CASCADE ON DELETE CASCADE\n" +
+                " FOREIGN KEY (sessionID) REFERENCES Sessions(id) ON UPDATE CASCADE ON DELETE CASCADE\n" +
                 ");";
         executeStatement(conn, sql, "Player stats table created successfully.");
+    }
+
+    /**
+     * Creates a table named "Sessions" in the database if it does not already exist.
+     * The table has the following columns:
+     * - id: INTEGER (Primary Key)
+     * - sessionDate: DATE
+     * - drillNum: INTEGER
+     * 
+     * @author JP
+     * @param conn the Connection object representing the database connection
+     */
+    public static void createSessionTable(Connection conn){
+        String sql = "CREATE TABLE IF NOT EXISTS Sessions (" +
+                " id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                " sessionDate DATE,\n" +
+                " drillNum INTEGER,\n" +
+                " UNIQUE(sessionDate, drillNum)\n" +
+                ");";
+        executeStatement(conn, sql, "Sessions table created successfully.");
     }
 
     }

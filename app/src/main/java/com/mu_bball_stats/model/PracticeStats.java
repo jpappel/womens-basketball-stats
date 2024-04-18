@@ -10,9 +10,9 @@ public class PracticeStats {
         // TODO Auto-generated constructor stub
     }
 
-    public void createSession(int ID){
-        Session session = new Session(LocalDate.now(), ID);
-    }
+    // public void createSession(int ID){
+    //     Session session = new Session(LocalDate.now(), ID);
+    // }
 
     public void addPlayerToSession(Session session, Player player){
         session.addPlayer(player);
