@@ -3,7 +3,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
-public class Session {
+public class Session implements Comparable<Session> {
     LocalDate date;
     int ID;
     TreeMap<Player, ArrayList<PlayerStat>> playerStats;
@@ -49,7 +49,11 @@ public class Session {
         return new ArrayList<>(playerStats.keySet());
     }
 
-
+    @Override
+    public int compareTo(Session other) {
+        int dateCompare = this.date.compareTo(other.date);
+        return dateCompare != 0 ? dateCompare : Integer.compare(this.ID, other.ID);
+    }
 }
 
 
