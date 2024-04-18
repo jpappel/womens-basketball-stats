@@ -1,12 +1,11 @@
-@import java.util.Map
+@import java.util.List
 @import com.mu_bball_stats.web.Page
 @import com.mu_bball_stats.model.Player
 @import com.mu_bball_stats.model.PlayerStat
-@import com.mu_bball_stats.model.Roster
+@import com.mu_bball_stats.model.Session
 
 @param Page page
-@param Roster roster
-
+@param List<Session> sessions
 
 @template.page(
     page = page,
@@ -24,30 +23,42 @@
     </fieldset>
     <table>
         <thead>
-            <th>Stat id</th>
             <th>Player</th>
-            <th>Free Throws Attempted</th>
-            <th>Free Throws Made</th>
-            <kjth>Free Throw Percentage</kjth>
-            <th>Three Pointers Attempted</th>
-            <th>Three Pointers Made</th>
-            <th>Three Point Percentage</th>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Made</th>
+            <th>Attempted</th>
+            <th>Percentage</th>
         </thead>
         <tbody>
-        @for(Player player : roster.getPlayers())
-            @for(Map.Entry<Integer,PlayerStat> entry : player.stats.entrySet())
-            <tr>
-              <td>${entry.getKey()}</td>
-              <td>${entry.getValue().getFreeThrowAttempts()}</td>
-              <td>${entry.getValue().getFreeThrowsMade()}</td>
-              <td>${entry.getValue().getFreeThrowPercentage()}</td>
-              <td>${entry.getValue().getThreePointersAttempted()}</td>
-              <td>${entry.getValue().getThreePointersMade()}</td>
-              <td>${entry.getValue().getThreePointPercentage()}</td>
-            </tr>
+        @for(Session session : sessions)
+            @for(Player player : session.getPlayerStats().keySet())
+                @for(PlayerStat stat : session.getPlayerStats().get(player))
+                    <tr class="${player.isPlaying() ? "" : "inactive"}">
+                        <td>${player.getName()}</td>
+                        <td>${session.getDate().toString()}</td>
+                        <td>${stat.getStatType()}</td>
+                        <td>${stat.getMade()}</td>
+                        <td>${stat.getAttempted()}</td>
+                        <td>${stat.getPercentage()}</td>
+                    </tr>
+                @endfor
             @endfor
         @endfor
         </tbody>
     </table>
+    <script>
+    document.getElementById('activityFilter').addEventListener('change', function() {
+        let showInactive = this.checked;
+        let inactiveRows = document.querySelectorAll('.inactive');
+        inactiveRows.forEach(function(row) {
+            row.style.display = showInactive ? '' : 'none';
+        });
+    });
+    $(function(){
+        $('table').tablesorter();
+
+    })
+    </script>
     `
 )

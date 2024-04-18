@@ -36,6 +36,7 @@ dependencies {
     //TODO: consolidate these into a single library
     //json library
     implementation("com.fasterxml.jackson.core:jackson-databind:2.16.1")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.0")
     //another json library
     implementation("com.google.code.gson:gson:2.10.1")
 
