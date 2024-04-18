@@ -94,6 +94,23 @@ public class DatabaseManager {
         executeStatement(conn, sql, "Player stats table created successfully.");
     }
 
+    /**
+     * Creates a table named "Sessions" in the database if it does not already exist.
+     * The table has the following columns:
+     * - id: INTEGER (Primary Key)
+     * - sessionDate: DATE
+     * 
+     * @author JP
+     * @param conn the Connection object representing the database connection
+     */
+    public static void createSessionTable(Connection conn){
+        String sql = "CREATE TABLE IF NOT EXISTS Sessions (" +
+                " id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                " sessionDate DATE\n" +
+                ");";
+        executeStatement(conn, sql, "Sessions table created successfully.");
+    }
+
     }
 
 

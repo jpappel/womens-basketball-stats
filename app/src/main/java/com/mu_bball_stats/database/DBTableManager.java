@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import com.mu_bball_stats.model.Player;
 import com.mu_bball_stats.model.PlayerStat;
 import com.mu_bball_stats.model.Roster;
+import com.mu_bball_stats.model.Session;
 
 /**
  * Implements the RosterDataManager interface and provides methods
@@ -185,18 +186,16 @@ public class DBTableManager implements RosterDataManager {
      * @author J.P.
      * @param playerID the ID of the player
      * @param stat the PlayerStat object containing the statistics to be added
-     * @param practiceDate the date of the practice
-     * @param drillNum the number of the drill
-     * @param statType the type of statistic being recorded (e.g. "freeThrow", "threePoint")
+     * @param session the session which the statistics are associated with
      * @return the ID of the added statistics, or -1 if an error occurred
      */
     @Override
-    public int addPlayerStats(int playerID, PlayerStat stat, LocalDate practiceDate, int drillNum, String statType) {
+    public int addPlayerStats(int playerID, PlayerStat stat, Session session) {
         String sql = "INSERT INTO PlayerStatistics (playerID, practiceDate, drillNum, statType, attempted, made) VALUES(?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, playerID);
-            pstmt.setDate(2, Date.valueOf(practiceDate)); // Convert LocalDate to SQL Date
-            pstmt.setInt(3, stat.getDrillNum());
+            pstmt.setDate(2, Date.valueOf(session.getDate())); // Convert LocalDate to SQL Date
+            pstmt.setInt(3, session.getID());
             pstmt.setString(4, stat.getStatType());
             pstmt.setInt(5, stat.getAttempted());
             pstmt.setInt(6, stat.getMade());
@@ -254,6 +253,12 @@ public class DBTableManager implements RosterDataManager {
             System.err.println(e.getMessage());
             return null;
         }
+    }
+
+    @Override
+    public Session getSession(int sessionID) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getSession'");
     }
 
 }
