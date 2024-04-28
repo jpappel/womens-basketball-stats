@@ -266,29 +266,62 @@ public class DBTableManager implements RosterDataManager {
     @Override
     public List<Session> getPlayerStats(int playerID) {
         List<Session> sessions = new ArrayList<>();
+        List<Integer> sessionIDs = new ArrayList<>();
         Player player = getPlayer(playerID);
         if (player == null){
             return null;
         }
         
-        String sql = "SELECT * FROM PlayerStatistics WHERE playerID = ?";
-
-        // get the player stats from the database
+        String sql = "SELECT sessionID FROM PlayerStatistics WHERE playerID = ?";
+        // get the session IDs for the player
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, playerID);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                Session session = getSession(rs.getInt("sessionID"));
-                if(session == null) return null;
-                HashMap<Player, ArrayList<PlayerStat>> stats = new HashMap<>();
-                stats.put(player, session.getPlayerStats().get(player));
-                sessions.add(new Session(session.getDate(),
-                        session.getID(), session.getDrillNum(), stats));
+                sessionIDs.add(rs.getInt("sessionID"));
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             return null;
         }
+
+        //construct sessions
+        sql = "SELECT * FROM Sessions WHERE id = ?";
+        for(int id : sessionIDs){
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setInt(1, id);
+                ResultSet rs = pstmt.executeQuery();
+                if (rs.next()) {
+                    Session session = new Session(rs.getDate("sessionDate").toLocalDate(),
+                            rs.getInt("id"),
+                            rs.getInt("drillNum"));
+                    sessions.add(session);
+                }
+            } catch (SQLException e) {
+                System.err.println(e.getMessage());
+                return null;
+            }
+        }
+
+        //get stats for each session
+        sql = "SELECT * FROM PlayerStatistics WHERE sessionID = ? AND playerID = ?";
+        for(Session session : sessions){
+            try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+                pstmt.setInt(1, session.getID());
+                pstmt.setInt(2, playerID);
+                ResultSet rs = pstmt.executeQuery();
+                while(rs.next()){
+                    PlayerStat stat = new PlayerStat(rs.getString("statType"),
+                            rs.getInt("made"),
+                            rs.getInt("attempted"));
+                    session.addStat(player, stat);
+                }
+            } catch (SQLException e) {
+                System.err.println(e.getMessage());
+                return null;
+            }
+        }
+
 
         return sessions;
     }
@@ -331,7 +364,6 @@ public class DBTableManager implements RosterDataManager {
             while (rs.next()) {
                 players.add(getPlayer(rs.getInt("playerID")));
                 Player player = players.getLast();
-                System.out.println(player.getName());
                 if(player == null) return null;
 
                 PlayerStat stat = new PlayerStat(rs.getString("statType"),
@@ -359,7 +391,6 @@ public class DBTableManager implements RosterDataManager {
         String sql = "SELECT id FROM Sessions";
         try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                System.out.println(rs.getInt("id"));
                 sessionIds.add(rs.getInt("id"));
             }
         } catch (SQLException e) {

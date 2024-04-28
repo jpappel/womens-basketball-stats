@@ -131,6 +131,18 @@ public class Player implements java.io.Serializable, Comparable<Player> {
     }
 
     @Override
+    public String toString() {
+        return "Player{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", position='" + position + '\'' +
+                ", number=" + number +
+                ", isPlaying=" + isPlaying +
+                ", classYear=" + classYear +
+                '}';
+    }
+
+    @Override
     public int compareTo(Player otherPlayer) {
         if (this.isPlaying && !otherPlayer.isPlaying) {
             return -1;

@@ -43,4 +43,13 @@ public class PlayerStat {
     public String getStatType() {
         return statType;
     }
+
+    @Override
+    public String toString() {
+        return "PlayerStat{" +
+                "statType='" + statType + '\'' +
+                ", made=" + made +
+                ", attempted=" + attempted +
+                '}';
+    }
 }

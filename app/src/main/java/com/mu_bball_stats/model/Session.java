@@ -82,6 +82,16 @@ public class Session implements Comparable<Session> {
         int dateCompare = this.date.compareTo(other.date);
         return dateCompare != 0 ? dateCompare : Integer.compare(this.ID, other.ID);
     }
+
+    @Override
+    public String toString() {
+        return "Session{" +
+                "date=" + date +
+                ", ID=" + ID +
+                ", drillNum=" + drillNum +
+                ", playerStats=" + playerStats +
+                '}';
+    }
 }
 
 

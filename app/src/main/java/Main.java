@@ -30,7 +30,7 @@ import com.mu_bball_stats.WebBrowser;
 
 public class Main {
     private static final String RESOURCE_ROOT = "src/main/resources/public";
-    private static final boolean isDev = false;
+    private static final boolean isDev = true;
 
     public static void main(String[] args) {
 
@@ -140,7 +140,7 @@ public class Main {
                 Player player = ctx.appData(rosterKey).getPlayerByID(id);
                 if(player != null){
                     Page playerPage = ctx.appData(playerPageKey);
-                    playerPage.setTitle(player.getName());
+                    playerPage.setTitle(player.getName() + "'s Stats");
                     List<Session> sessions = dbTableManager.getPlayerStats(id);
                     if(sessions == null){
                         System.err.println("unable to find player with id " + id);
@@ -218,7 +218,9 @@ public class Main {
                Map.of("sessions", sessions, "page", ctx.appData(statsPageKey)));
             });
             app.start(7070);
-            new WebBrowser().main(args);
 
+            if(!isDev){
+                new WebBrowser().main(args);
+            }
     }
 }
