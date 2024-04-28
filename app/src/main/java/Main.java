@@ -178,11 +178,6 @@ public class Main {
             })
             .get("/stats", ctx -> {
                List<Session> sessions = dbTableManager.getSessions();
-               for(Session session : sessions){
-                for(Player player : session.getPlayerStats().keySet()){
-                    System.out.println(player.getName());
-                }
-               }
                ctx.contentType("text/html");
                ctx.render("stats.jte",
                Map.of("sessions", sessions, "page", ctx.appData(statsPageKey)));

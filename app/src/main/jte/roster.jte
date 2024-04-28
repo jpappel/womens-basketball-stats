@@ -22,8 +22,8 @@
     <table class="tablesorter">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Name</th>
+                <th>Class</th>
                 <th>Number</th>
                 <th>Position</th>
                 <th>Active</th>
@@ -32,8 +32,8 @@
         </thead>
         @for(Player player : roster.getPlayers())
         <tr id="playerRow_${player.getID()}" class="${player.isPlaying() ? "" : "inactive"}">
-            <td>${player.getID()}</td>
             <td><a href="/players/${player.getID()}">${player.getName()}</a></td>
+            <td>${player.getClassYear()}</td>
             <td>${player.getNumber()}</td>
             <td>${player.getPosition()}</td>
             <td>${player.isPlaying() ? "Yes" : "No"}</td>

@@ -16,6 +16,9 @@
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required><br><br>
         
+        <label for="year">Year:</label>
+        <input type="number" inputmode="numeric" id="year" name="year" required><br><br>
+        
         <label for="number">Number:</label>
         <input type="text" inputmode="numeric" pattern="\d*" id="number" name="number" required/><br><br>
         
@@ -37,12 +40,20 @@
             
             // Retrieve form data
             const name = document.getElementById("name").value;
+            const year = document.getElementById("year").value;
             const number = document.getElementById("number").value;
             const position = document.getElementById("position").value;
+
+            //input validation
+            if (name == "" || year == "" || number == "" || position == "") {
+                alert("Please fill out all fields.");
+                return;
+            }
             
             // Create player object
             const player = {
                 name: name,
+                classYear: year,
                 number: number,
                 position: position,
                 isPlaying: 1

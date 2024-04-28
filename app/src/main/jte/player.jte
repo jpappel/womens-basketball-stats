@@ -31,6 +31,7 @@
         <th>Perecentage</th>
       </tr>
       <tbody>
+      <!--
       @for(Session session : sessions)
             @for(Player player : session.getPlayerStats().keySet())
                 @for(PlayerStat stat : session.getPlayerStats().get(player))
@@ -48,6 +49,7 @@
           <td colspan="5">No stats found</td>
         </tr>
         @endfor
+        -->
       </tbody>
     </thead>
   </table>
