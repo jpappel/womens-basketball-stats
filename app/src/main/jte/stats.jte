@@ -17,6 +17,14 @@
         <input type="text" id="playerSearch" placeholder="Search for players...">
     </div>
     <div class="rosterFilter">
+        <label for="dateFilter">Start Date</label>
+        <input type="date" id="dateFilterStart">
+    </div>
+    <div class="rosterFilter">
+        <label for="dateFilter">End Date</label>
+        <input type="date" id="dateFilterEnd">
+    </div>
+    <div class="rosterFilter">
         <input type="checkbox" id="activityFilter" checked>
         <label for="activityFilter">Show Inactive Players</label>
     </div>
@@ -24,6 +32,7 @@
     <table>
         <thead>
             <th>Player</th>
+            <th>Test</th>
             <th>Date</th>
             <th>Type</th>
             <th>Made</th>
@@ -35,30 +44,18 @@
             @for(Player player : session.getPlayerStats().keySet())
                 @for(PlayerStat stat : session.getPlayerStats().get(player))
                     <tr class="${player.isPlaying() ? "" : "inactive"}">
+                        <td>${player.isPlaying() ? "Active" : "Inactive"}</td>
                         <td>${player.getName()}</td>
                         <td>${session.getDate().toString()}</td>
                         <td>${stat.getStatType()}</td>
                         <td>${stat.getMade()}</td>
                         <td>${stat.getAttempted()}</td>
-                        <td>${stat.getPercentage()}</td>
+                        <td>${stat.getFormattedPercentage()}</td>
                     </tr>
                 @endfor
             @endfor
         @endfor
         </tbody>
     </table>
-    <script>
-    document.getElementById('activityFilter').addEventListener('change', function() {
-        let showInactive = this.checked;
-        let inactiveRows = document.querySelectorAll('.inactive');
-        inactiveRows.forEach(function(row) {
-            row.style.display = showInactive ? '' : 'none';
-        });
-    });
-    $(function(){
-        $('table').tablesorter();
-
-    })
-    </script>
     `
 )

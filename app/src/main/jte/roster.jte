@@ -19,6 +19,9 @@
         <label for="activityFilter">Show Inactive Players</label>
     </div>
     </fieldset>
+    <nav>
+    <a href="/add-player">Add Player</a>
+    </nav>
     <table class="tablesorter">
         <thead>
             <tr>
@@ -38,26 +41,12 @@
             <td>${player.getPosition()}</td>
             <td>${player.isPlaying() ? "Yes" : "No"}</td>
             <td>
-                <button onclick="editPlayer()">Edit</button>
+                <!--<button onclick="editPlayer()">Edit</button>-->
                 <button onclick="togglePlayerActivity(${player.getID()}, ${!player.isPlaying()})">${player.isPlaying() ? "Set Inactive" : "Set Active"}</button>
                 <!--<button onclick="deletePlayer(&quot;${player.name}&quot;)">Delete</button>-->
             </td>
         </tr>
         @endfor
     </table>
-    <a href="/add-player">Add Player</a>
-    <script>
-    document.getElementById('activityFilter').addEventListener('change', function() {
-        let showInactive = this.checked;
-        let inactiveRows = document.querySelectorAll('.inactive');
-        inactiveRows.forEach(function(row) {
-            row.style.display = showInactive ? '' : 'none';
-        });
-    });
-    $(function(){
-        $('table').tablesorter();
-
-    })
-    </script>
     `
 )

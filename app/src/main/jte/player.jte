@@ -12,14 +12,12 @@
 @template.page(
   page = page,
     content = @`
-  <div>
-      <h1>${player.getName()}</h1>
-      <div>
-      <span>Number: ${player.getNumber()}</span>
-      </div>
-      <div>
-      <span>Postion: ${player.getPosition()}</span>
-      </div>
+    <div class="player-info">
+    <h1>${player.getName()}</h1>
+    <h2>Class Year: ${player.getClassYear()}</h2>
+        <span>Number: ${player.getNumber()}</span><br/>
+        <span>Position: ${player.getPosition()}</span>
+        <span>Active: ${player.isPlaying() ? "Yes" : "No"}</span>
   </div>
   <table class="tablesorter">
     <thead>
@@ -39,7 +37,7 @@
                         <td>${stat.getStatType()}</td>
                         <td>${stat.getMade()}</td>
                         <td>${stat.getAttempted()}</td>
-                        <td>${stat.getPercentage()}</td>
+                        <td>${stat.getFormattedPercentage()}</td>
                     </tr>
                 @endfor
             @endfor

@@ -121,7 +121,15 @@ th, td {
     border-bottom: 1px solid var(--light-gray);
 }
 
-tr:nth-child(even){background-color: #DDD;}
+/* tr:nth-child(even){background-color: #DDD;} */
+
+.tablesorter .filtered {
+    display: none;
+}
+
+table.tablesorter tbody tr.alt-row td {
+    background: #DDD;
+}
 
 th {
     padding-top: 12px;
@@ -130,6 +138,48 @@ th {
     background-color: var(--dark-blue);
     color: rgb(255, 255, 255);
     font-size: 20px; 
+}
+
+.rosterFilters {
+    display: flex;
+    justify-content: center;
+}
+
+.rosterFilter {
+    padding: 10px;
+}
+
+.player-info {
+    background-color: #f0f0f0;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.player-info h1 {
+    font-size: 36px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.player-info h2 {
+    margin-bottom: 10px;
+    font-size: 24px;
+    color: #666;
+}
+
+.player-info div {
+    margin-bottom: 10px;
+}
+
+.player-info span {
+    font-size: 18px;
+    color: #333;
 }
 
 .tablesorter-default {

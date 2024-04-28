@@ -73,10 +73,12 @@ public class Main {
             Roster roster = dbTableManager.getRoster();
             Page rosterPage = new Page("Roster");
             rosterPage.addScript("playerFunctions.js");
+            rosterPage.addScript("filters.js");
             Page playerPage = new Page("Player");
             Page addPlayerStatsPage = new Page("Add Player Stats");
-            Page statsPage = new Page("Stats");
             addPlayerStatsPage.addScript("playerFunctions.js");
+            Page statsPage = new Page("Stats");
+            statsPage.addScript("filters.js");
             config.appData(rosterKey, roster);
             config.appData(rosterPageKey, rosterPage);
             config.appData(playerPageKey, playerPage);
@@ -171,7 +173,6 @@ public class Main {
                     ctx.result("{\"error\": unable to find player with id " + id + "}");
                 }
                 else {
-                    //TODO: should be updated with more query params
                     Map<String, List<String>> payload = ctx.queryParamMap();
                     boolean isActive = Boolean.parseBoolean(payload.getOrDefault("active", List.of("true")).get(0));
                     player.setPlaying(isActive);
