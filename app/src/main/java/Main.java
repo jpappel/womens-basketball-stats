@@ -24,6 +24,7 @@ import com.mu_bball_stats.web.Page;
 import com.mu_bball_stats.model.Player;
 import com.mu_bball_stats.model.PlayerStat;
 import com.mu_bball_stats.model.Roster;
+import com.mu_bball_stats.model.Session;
 import com.mu_bball_stats.model.SessionStat;
 import com.mu_bball_stats.WebBrowser;
 
@@ -44,6 +45,7 @@ public class Main {
         DatabaseManager.createPlayersTable(conn);
         // creates player stats table if it does not exist
         DatabaseManager.createPlayerStatsTable(conn);
+        DatabaseManager.createSessionTable(conn);
 
         final DBTableManager dbTableManager = new DBTableManager(conn);
 
@@ -51,6 +53,7 @@ public class Main {
         Key<Page> rosterPageKey = new Key<>("RosterPage");
         Key<Page> playerPageKey = new Key<>("PlayerPage");
         Key<Page> addPlayerStatsPageKey = new Key<>("AddPlayerStatsPage");
+        Key<Page> statsPageKey = new Key<>("StatsPage");
         Javalin app = Javalin.create(config -> {
             config.staticFiles.add("public");
             TemplateEngine engine = null;
@@ -72,11 +75,13 @@ public class Main {
             rosterPage.addScript("playerFunctions.js");
             Page playerPage = new Page("Player");
             Page addPlayerStatsPage = new Page("Add Player Stats");
+            Page statsPage = new Page("Stats");
             addPlayerStatsPage.addScript("playerFunctions.js");
             config.appData(rosterKey, roster);
             config.appData(rosterPageKey, rosterPage);
             config.appData(playerPageKey, playerPage);
             config.appData(addPlayerStatsPageKey, addPlayerStatsPage);
+            config.appData(statsPageKey, statsPage);
         })
                 .get("/api/roster", ctx -> {
                     Roster roster = dbTableManager.getRoster();
@@ -136,7 +141,15 @@ public class Main {
                 if(player != null){
                     Page playerPage = ctx.appData(playerPageKey);
                     playerPage.setTitle(player.getName());
-                    ctx.render("player.jte", Map.of("player", player, "page", playerPage));
+                    List<Session> sessions = dbTableManager.getPlayerStats(id);
+                    if(sessions == null){
+                        System.err.println("unable to find player with id " + id);
+                        ctx.status(400);
+                        ctx.result("{\"error\": \"unable to find player with id " + id + "\"}");
+                        return;
+                    }
+                    ctx.contentType("text/html");
+                    ctx.render("player.jte", Map.of("player", player, "page", playerPage, "sessions", sessions));
                 }
                 else {
                     //TODO: check if correct status code
@@ -187,22 +200,27 @@ public class Main {
                 //render a table with the total stats for each player
             })
             .post("/players/stats", ctx -> {
-                SessionStat sessionStat = ctx.bodyAsClass(SessionStat.class);
-                Roster roster = ctx.appData(rosterKey);
-                for(Integer id : sessionStat.getPlayerStats().keySet()){
-                    PlayerStat playerStat = sessionStat.getPlayerStats().get(id);
-                    int statID = dbTableManager.addPlayerStats(id, playerStat);
+               SessionStat sessionStat = ctx.bodyAsClass(SessionStat.class); //fix this
+               int sessionID = dbTableManager.createSession(sessionStat.getDate());
+               Session session = dbTableManager.getSession(sessionID);
+               for(Integer id : sessionStat.getStats().keySet()){
+                    PlayerStat playerStat = sessionStat.getStats().get(id);
+                    int statID = dbTableManager.addPlayerStats(id, playerStat, session);
                     if(statID == -1) continue;
-                    roster.getPlayerByID(id).addStat(statID, playerStat);
+               }
+               ctx.contentType("application/json");
+            })
+            .get("/stats", ctx -> {
+               List<Session> sessions = dbTableManager.getSessions();
+               for(Session session : sessions){
+                for(Player player : session.getPlayerStats().keySet()){
+                    System.out.println(player.getName());
                 }
-                ctx.contentType("application/json");
+               }
+               ctx.contentType("text/html");
+               ctx.render("stats.jte",
+               Map.of("sessions", sessions, "page", ctx.appData(statsPageKey)));
             });
-            //.get("/players/stats", ctx -> {
-            //    ctx.contentType("text/html");
-            //    ctx.render("stats.jte",
-            //    Map.of("roster", ctx.appData(rosterKey), "page", ctx.appData(statsPage));
-            //})
-            //dummy page
             app.start(7070);
             new WebBrowser().main(args);
 

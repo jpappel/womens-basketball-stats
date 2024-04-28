@@ -2,18 +2,16 @@ package com.mu_bball_stats.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.TreeMap;
 
 /**
  * Represents a player in a basketball team.
  */
-public class Player implements java.io.Serializable{
+public class Player implements java.io.Serializable, Comparable<Player> {
     private int id;
     private String name;
     private String position;
     private int number;
     private boolean isPlaying;
-    public TreeMap<Integer, PlayerStat> stats;
 
     @JsonCreator
     public Player(@JsonProperty("name") String name, @JsonProperty("position") String position,
@@ -23,7 +21,6 @@ public class Player implements java.io.Serializable{
         this.position = position;
         this.number = number;
         this.isPlaying = true;
-        this.stats = new TreeMap<>();
     }
 
     /**
@@ -98,16 +95,13 @@ public class Player implements java.io.Serializable{
         return isPlaying;
     }
 
+    /**
+     * Sets the playing status of the player.
+     * 
+     * @param isPlaying true if the player is currently playing, false otherwise
+     */
     public void setPlaying(boolean isPlaying){
         this.isPlaying = isPlaying;
-    }
-
-    public void addStat(int statsID, PlayerStat stat){
-        stats.put(statsID, stat);
-    }
-
-    public void setStat(TreeMap<Integer, PlayerStat> stats){
-        this.stats = stats;
     }
 
     /**
@@ -118,5 +112,16 @@ public class Player implements java.io.Serializable{
     public String toJson() {
         return String.format("{\"name\": \"%s\", \"position\": \"%s\", \"number\": %d}", 
                              name, position, number);
+    }
+
+    @Override
+    public int compareTo(Player otherPlayer) {
+        if (this.isPlaying && !otherPlayer.isPlaying) {
+            return -1;
+        } else if (!this.isPlaying && otherPlayer.isPlaying) {
+            return 1;
+        } else {
+            return this.id - otherPlayer.id;
+        }
     }
 }
