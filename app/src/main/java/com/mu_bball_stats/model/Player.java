@@ -12,15 +12,17 @@ public class Player implements java.io.Serializable, Comparable<Player> {
     private String position;
     private int number;
     private boolean isPlaying;
+    private int classYear;
 
     @JsonCreator
     public Player(@JsonProperty("name") String name, @JsonProperty("position") String position,
-                  @JsonProperty("number") int number) {
+                  @JsonProperty("number") int number, @JsonProperty("classYear") int classYear) {
         this.id = -1;
         this.name = name;
         this.position = position;
         this.number = number;
         this.isPlaying = true;
+        this.classYear = classYear;
     }
 
     /**
@@ -51,6 +53,13 @@ public class Player implements java.io.Serializable, Comparable<Player> {
     }
 
     /**
+     * Returns the class year of the player.
+     *
+     * @return the class year of the player
+     */
+    public int getClassYear() { return classYear; }
+
+    /**
      * Sets the name of the player.
      *
      * @param name the name of the player
@@ -76,6 +85,13 @@ public class Player implements java.io.Serializable, Comparable<Player> {
     public void setNumber(int number) {
         this.number = number;
     }
+
+    /**
+     * Sets the class year of the player.
+     *
+     * @param classYear the class year of the player
+     */
+    public void setClassYear(int classYear) { this.classYear = classYear; }
 
     public void setID(int id){
         this.id = id;
@@ -110,8 +126,8 @@ public class Player implements java.io.Serializable, Comparable<Player> {
      * @return the player object in JSON format
      */
     public String toJson() {
-        return String.format("{\"name\": \"%s\", \"position\": \"%s\", \"number\": %d}", 
-                             name, position, number);
+        return String.format("{\"name\": \"%s\", \"position\": \"%s\", \"number\": %d, \"classYear\": %d}",
+                             name, position, number, classYear);
     }
 
     @Override

@@ -15,7 +15,7 @@ public interface RosterDataManager {
     public Player getPlayer(int ID);
     public boolean addPlayer(Player player);
     public Roster getRoster();
-    public void updatePlayer(int ID, String name, String position, int playerNumber, boolean isActive);
+    public void updatePlayer(int ID, String name, String position, int playerNumber, boolean isActive, int classYear);
     public boolean deletePlayer(int ID);
     public int addPlayerStats(int playerID, PlayerStat stat, Session session);
     public void updatePlayerStats(int playerID, LocalDate practiceDate, int drillNum, String statType, int attempted, int made);

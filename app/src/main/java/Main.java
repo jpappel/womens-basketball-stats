@@ -159,7 +159,8 @@ public class Main {
                             player.getName(),
                             player.getPosition(),
                             player.getNumber(),
-                            isActive
+                            isActive,
+                            player.getClassYear()
                     );
                     ctx.result("{\"active\": \"" + isActive +"\"}");
                 }
