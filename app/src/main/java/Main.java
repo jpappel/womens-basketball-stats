@@ -1,9 +1,16 @@
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import io.javalin.Javalin;
 import io.javalin.config.Key;
+import io.javalin.rendering.FileRenderer;
 import io.javalin.rendering.template.JavalinJte;
+import gg.jte.ContentType;
+import gg.jte.TemplateEngine;
+import java.io.File;
+import gg.jte.resolve.DirectoryCodeResolver;
+import java.nio.file.Path;
 
 import com.google.gson.Gson;
 
@@ -23,6 +30,7 @@ import com.mu_bball_stats.WebBrowser;
 
 public class Main {
     private static final String RESOURCE_ROOT = "src/main/resources/public";
+    private static final boolean isDev = false;
 
     public static void main(String[] args) {
 
@@ -48,7 +56,20 @@ public class Main {
         Key<Page> statsPageKey = new Key<>("StatsPage");
         Javalin app = Javalin.create(config -> {
             config.staticFiles.add("public");
-            config.fileRenderer(new JavalinJte());
+            TemplateEngine engine = null;
+            if(isDev){
+                Path targetDirectory = Path.of("src/main/jte");
+                System.out.println("targetDirectory: " + targetDirectory);
+                engine = TemplateEngine.create(new DirectoryCodeResolver(targetDirectory), ContentType.Html);
+            }
+            else {
+                Path targetDirectory = Path.of("templates");
+                System.out.println("targetDirectory: " + targetDirectory);
+                engine = TemplateEngine.createPrecompiled(targetDirectory, ContentType.Html);
+            }
+            FileRenderer jte = new JavalinJte(engine);
+            config.fileRenderer(jte);
+
             Roster roster = dbTableManager.getRoster();
             Page rosterPage = new Page("Roster");
             rosterPage.addScript("playerFunctions.js");
@@ -164,6 +185,20 @@ public class Main {
                     );
                     ctx.result("{\"active\": \"" + isActive +"\"}");
                 }
+            })
+            .get("/players/stats", ctx -> {
+                //TODO: finish implementing
+                //get query params
+                String startDateString = ctx.queryParam("start-date");
+                String endDateString = ctx.queryParam("end-date");
+                String name = ctx.queryParam("name");
+                String position = ctx.queryParam("position");
+                String season = ctx.queryParam("season");
+
+                //filter session stats by start and or end dates and or season
+                //filter within each sessions stat by name and or position
+                //compute total stats for each player
+                //render a table with the total stats for each player
             })
             .post("/players/stats", ctx -> {
                SessionStat sessionStat = ctx.bodyAsClass(SessionStat.class); //fix this

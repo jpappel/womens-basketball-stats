@@ -70,3 +70,23 @@ javafx {
 jte {
     precompile()
 }
+
+tasks.distZip {
+    dependsOn(":app:precompileJte")
+}
+
+tasks.distTar {
+    dependsOn(":app:precompileJte")
+}
+
+
+distributions {
+    main {
+        contents {
+            val jte = extensions.getByType<gg.jte.gradle.JteExtension>()
+            from(jte.targetDirectory) {
+                into("templates")
+            }
+        }
+    }
+}
