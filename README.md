@@ -1,5 +1,15 @@
 # Moravian University Women's Basketball Stats
 
+## Installation
+
+**NOTE** You will need the latest version of Java installed.
+
+1. Download the latest release dmg from Releases
+2. Open the dmg
+3. Copy `PracticeStatsTracker` and `Practice Stats.app` into `Applications`
+
+To run click on `Practice Stats.app` in Applications.
+
 ## Development
 
 The dependencies for this project are managed via Gradle.
