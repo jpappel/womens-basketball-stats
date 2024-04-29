@@ -184,6 +184,7 @@ table.tablesorter tbody tr.alt-row td {
     color: #333;
 }
 
+
 .tablesorter-default {
     width: 100%;
     font-size: 20px;
@@ -229,6 +230,7 @@ table.tablesorter tbody tr.alt-row td {
     background-image: url(data:image/gif;base64,R0lGODlhFAAUAKEAAO7u7lpaWgAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQBCgACACwAAAAAFAAUAAACQZRvoIDtu1wLQUAlqKTVxqwhXIiBnDg6Y4eyx4lKW5XK7wrLeK3vbq8J2W4T4e1nMhpWrZCTt3xKZ8kgsggdJmUFACH5BAEKAAIALAcAAAALAAcAAAIUVB6ii7jajgCAuUmtovxtXnmdUAAAIfkEAQoAAgAsDQACAAcACwAAAhRUIpmHy/3gUVQAQO9NetuugCFWAAAh+QQBCgACACwNAAcABwALAAACE5QVcZjKbVo6ck2AF95m5/6BSwEAIfkEAQoAAgAsBwANAAsABwAAAhOUH3kr6QaAcSrGWe1VQl+mMUIBACH5BAEKAAIALAIADQALAAcAAAIUlICmh7ncTAgqijkruDiv7n2YUAAAIfkEAQoAAgAsAAAHAAcACwAAAhQUIGmHyedehIoqFXLKfPOAaZdWAAAh+QQFCgACACwAAAIABwALAAACFJQFcJiXb15zLYRl7cla8OtlGGgUADs=) !important
 }
 
+
 .playerStatsForm {
     display: flex;
     flex-direction: column;
@@ -242,6 +244,7 @@ table.tablesorter tbody tr.alt-row td {
     border-collapse: collapse;
     font-size: 24px;
 }
+
 
 /* Form Styling */
 label {
