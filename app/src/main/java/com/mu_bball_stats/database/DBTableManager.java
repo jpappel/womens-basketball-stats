@@ -32,6 +32,7 @@ public class DBTableManager implements RosterDataManager {
     /**
      * Retrieves a player from the database based on the specified ID.
      * @author Alan
+     * @Author JP
      * @param ID the ID of the player to retrieve
      * @return the Player object if found, null otherwise
      */
@@ -42,12 +43,13 @@ public class DBTableManager implements RosterDataManager {
             pstmt.setInt(1, ID);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                return new Player(
+                Player player = new Player(
                         rs.getString("playerName"),
                         rs.getString("position"),
                         rs.getInt("playerNum"),
-                        rs.getInt("classYear")
-                );
+                        rs.getInt("classYear"));
+                player.setPlaying(rs.getInt("playerActivity") == 1);
+                return player;
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -362,9 +364,9 @@ public class DBTableManager implements RosterDataManager {
             pstmt.setInt(1, sessionID);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                players.add(getPlayer(rs.getInt("playerID")));
-                Player player = players.getLast();
+                Player player = getPlayer(rs.getInt("playerID"));
                 if(player == null) return null;
+                players.add(player);
 
                 PlayerStat stat = new PlayerStat(rs.getString("statType"),
                         rs.getInt("made"),

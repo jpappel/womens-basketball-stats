@@ -17,21 +17,6 @@ function togglePlayerActivity(id, newActivity){
     });
 }
 
-function addPlayersStats(sessionStats){
-    fetch("/players/stats", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(sessionStats)
-    }).then(response => {
-        if(response.ok){
-            alert("Players stats added successfully");
-            location.reload();
-        } else {
-            alert("Failed to add players stats");
-        }
-    });
 
 function getPlayerStats(){
     fetch("/players/stats")
@@ -39,5 +24,4 @@ function getPlayerStats(){
         .then(data => {
             console.log(data);
         });
-}
 }

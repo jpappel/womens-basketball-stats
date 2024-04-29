@@ -109,13 +109,13 @@ nav a:link {
 }
 
 /* Table Styling */
-table {
+table.tablesorter {
     width: 100%;
     border-collapse: collapse;
     font-size: 20px;
 }
 
-th, td {
+.tablesorter th, .tablesorter td {
     padding: 8px;
     text-align: left;
     border-bottom: 1px solid var(--light-gray);
@@ -131,7 +131,7 @@ table.tablesorter tbody tr.alt-row td {
     background: #DDD;
 }
 
-th {
+.tablesorter th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
@@ -142,6 +142,8 @@ th {
 
 .rosterFilters {
     display: flex;
+    flex-wrap: wrap;
+    max-width: 60%;
     justify-content: center;
 }
 
@@ -227,6 +229,20 @@ th {
     background-image: url(data:image/gif;base64,R0lGODlhFAAUAKEAAO7u7lpaWgAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQBCgACACwAAAAAFAAUAAACQZRvoIDtu1wLQUAlqKTVxqwhXIiBnDg6Y4eyx4lKW5XK7wrLeK3vbq8J2W4T4e1nMhpWrZCTt3xKZ8kgsggdJmUFACH5BAEKAAIALAcAAAALAAcAAAIUVB6ii7jajgCAuUmtovxtXnmdUAAAIfkEAQoAAgAsDQACAAcACwAAAhRUIpmHy/3gUVQAQO9NetuugCFWAAAh+QQBCgACACwNAAcABwALAAACE5QVcZjKbVo6ck2AF95m5/6BSwEAIfkEAQoAAgAsBwANAAsABwAAAhOUH3kr6QaAcSrGWe1VQl+mMUIBACH5BAEKAAIALAIADQALAAcAAAIUlICmh7ncTAgqijkruDiv7n2YUAAAIfkEAQoAAgAsAAAHAAcACwAAAhQUIGmHyedehIoqFXLKfPOAaZdWAAAh+QQFCgACACwAAAIABwALAAACFJQFcJiXb15zLYRl7cla8OtlGGgUADs=) !important
 }
 
+.playerStatsForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 10px 0;
+    width: 60%;
+}
+
+.playerStatsTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 24px;
+}
+
 /* Form Styling */
 label {
     font-size: 20px;
@@ -236,6 +252,14 @@ label {
 input[type=text], input[type=number], input[type=submit] {
    font-size: 20px;
    color: var(--primary-text);
+}
+
+#playerForm {
+    width: 60%;
+}
+
+#playerForm > * {
+    width: 100%;
 }
 
 select{

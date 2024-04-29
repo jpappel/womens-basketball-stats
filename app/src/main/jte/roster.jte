@@ -12,12 +12,20 @@
     <fieldset class="rosterFilters">
     <legend>Roster Filters</legend>
     <div class="rosterFilter">
-        <input type="text" id="playerSearch" placeholder="Search for players...">
+        <input type="text" id="playerSearch" class="filterInput" placeholder="Search for players..." data-column="0">
     </div>
     <div class="rosterFilter">
-        <input type="checkbox" id="activityFilter" checked>
-        <label for="activityFilter">Show Inactive Players</label>
+        <input type="text" id="classFilter" class="filterInput" placeholder="Filter by class..." data-column="1">
     </div>
+    <div class="rosterFilter">
+        <label for="activityFilter">Activity Level</label>
+        <select id="activityFilter" class="filterInput" data-column="4">
+            <option value="">All</option>
+            <option value="Yes">Active</option>
+            <option value="No">Inactive</option>
+        </select>
+    </div>
+    <button id="resetFilters">Clear Filters</button>
     </fieldset>
     <nav>
     <a href="/add-player">Add Player</a>
@@ -30,7 +38,7 @@
                 <th>Number</th>
                 <th>Position</th>
                 <th>Active</th>
-                <th>Actions</th>
+                <th data-sorter="false">Actions</th>
             </tr>
         </thead>
         @for(Player player : roster.getPlayers())

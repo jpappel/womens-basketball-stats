@@ -14,11 +14,12 @@
         <label for="date">Date:</label>
         <input type="date" id="date" value="${LocalDate.now().toString()}"/>
         </div>
-        <select id="statType">
+        <div class="playerStatsForm">
+        <select class="statType">
         <option value="freeThrow">Free Throws</option>
         <option value="threePoint">Three Points</option>
         </select>
-        <table id="playerStatsTable">
+        <table class="playerStatsTable">
         <thead>
             <tr>
                 <th>Player</th>
@@ -30,34 +31,57 @@
             @if(player.isPlaying())
                 <tr>
                     <td data-player-id="${player.getID()}">${player.getName()}</td>
-                    <td><input type="number" inputmode="numeric" pattern="[0-9]*" name="attempted_${player.getID()}" /></td>
-                    <td><input type="number" inputmode="numeric" pattern="[0-9]*" name="made_${player.getID()}" /></td>
+                    <td><input required type="number" inputmode="numeric" pattern="[0-9]*" name="attempted_${player.getID()}" /></td>
+                    <td><input required type="number" inputmode="numeric" pattern="[0-9]*" name="made_${player.getID()}" /></td>
                 </tr>
             @endif
         @endfor
         </table>
+        </div>
+        <div style="display: flex; padding: 10px;">
+        <button style="margin: 4px" type="button" onclick="createStatsForm()">Add Another Drill</button>
+        <button style="margin: 4px" type="button" onclick="removeStatsForm()">Remove Last Drill</button>
+        </div>
         <button type="submit" id="submitButton">Submit</button>
         <script>
-            document.getElementById('submitButton').addEventListener('click', function() {
-            let data = {};
-            let sessionStats = {};
-            const table = document.getElementById('playerStatsTable');
-            let rows = table.getElementsByTagName('tr');
-            for (let i = 1; i < rows.length; i++) { // Start from 1 to skip the header row
-                let cells = rows[i].getElementsByTagName('td');
-                let playerId = cells[0].getAttribute('data-player-id');
-                let attempted = parseInt(cells[1].getElementsByTagName('input')[0].value);
-                let made = parseInt(cells[2].getElementsByTagName('input')[0].value);
-                sessionStats[playerId] = {
-                    statType: document.getElementById('statType').value,
-                    made: made,
-                    attempted: attempted
-                };
-                data.date = document.getElementById('date').value;
-                data.stats = sessionStats;
+        function removeStatsForm(){
+            let forms = document.querySelectorAll(".playerStatsForm");
+            if(forms.length > 1){
+                let lastForm = forms[forms.length - 1];
+                lastForm.remove();
             }
-            addPlayersStats(data);
-        });
-    </script>
+        }
+        function createStatsForm(){
+            let form = document.createElement("div");
+            form.classList.add("playerStatsForm");
+            form.innerHTML = '\
+            <select class="statType">\
+            <option value="freeThrow">Free Throws</option>\
+            <option value="threePoint">Three Points</option>\
+            </select>\
+            <table class="playerStatsTable">\
+            <thead>\
+            <tr>\
+                <th>Player</th>\
+                <th>Attempted</th>\
+                <th>Made</th>\
+            </tr>\
+            </thead>\
+            @for(Player player : roster.getPlayers())\
+                @if(player.isPlaying())\
+                    <tr>\
+                    <td data-player-id="${player.getID()}">${player.getName()}</td>\
+                    <td><input required type="number" inputmode="numeric" pattern="[0-9]*" name="attempted_${player.getID()}" /></td>\
+                    <td><input required type="number" inputmode="numeric" pattern="[0-9]*" name="made_${player.getID()}" /></td>\
+                    </tr>\
+                @endif\
+            @endfor\
+            </table>\
+        ';
+        let forms = document.querySelectorAll(".playerStatsForm");
+        let lastForm = forms[forms.length - 1];
+        lastForm.insertAdjacentElement('afterend', form);
+        }
+        </script>
     `
 )

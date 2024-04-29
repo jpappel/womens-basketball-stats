@@ -8,11 +8,8 @@ import io.javalin.rendering.FileRenderer;
 import io.javalin.rendering.template.JavalinJte;
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
-import java.io.File;
 import gg.jte.resolve.DirectoryCodeResolver;
-import java.nio.file.Path;
 
-import com.google.gson.Gson;
 
 import java.sql.Connection;
 import java.util.List;
@@ -30,7 +27,7 @@ import com.mu_bball_stats.WebBrowser;
 
 public class Main {
     private static final String RESOURCE_ROOT = "src/main/resources/public";
-    private static final boolean isDev = true;
+    private static final boolean isDev = false;
 
     public static void main(String[] args) {
 
@@ -54,6 +51,7 @@ public class Main {
         Key<Page> playerPageKey = new Key<>("PlayerPage");
         Key<Page> addPlayerStatsPageKey = new Key<>("AddPlayerStatsPage");
         Key<Page> statsPageKey = new Key<>("StatsPage");
+        Key<Page> addPlayerPageKey = new Key<>("AddPlayerPage");
         Javalin app = Javalin.create(config -> {
             config.staticFiles.add("public");
             TemplateEngine engine = null;
@@ -75,15 +73,19 @@ public class Main {
             rosterPage.addScript("playerFunctions.js");
             rosterPage.addScript("filters.js");
             Page playerPage = new Page("Player");
+            playerPage.addScript("filters.js");
             Page addPlayerStatsPage = new Page("Add Player Stats");
             addPlayerStatsPage.addScript("playerFunctions.js");
+            addPlayerStatsPage.addScript("add_stats.js");
             Page statsPage = new Page("Stats");
             statsPage.addScript("filters.js");
+            Page addPlayerPage = new Page("Add Player");
             config.appData(rosterKey, roster);
             config.appData(rosterPageKey, rosterPage);
             config.appData(playerPageKey, playerPage);
             config.appData(addPlayerStatsPageKey, addPlayerStatsPage);
             config.appData(statsPageKey, statsPage);
+            config.appData(addPlayerPageKey, addPlayerPage);
         })
                 .get("/api/roster", ctx -> {
                     Roster roster = dbTableManager.getRoster();
@@ -112,9 +114,7 @@ public class Main {
 
             //updated API
             .get("/add-player", ctx -> {
-                    byte[] htmlContent = Files.readAllBytes(Paths.get(RESOURCE_ROOT, "add_player.html"));
-                    ctx.contentType("text/html");
-                    ctx.result(htmlContent);
+                    ctx.render("add_player.jte", Map.of("page", ctx.appData(addPlayerPageKey)));
             })
             .post("/players", ctx -> {
                 Player player = ctx.bodyAsClass(Player.class);
@@ -187,20 +187,6 @@ public class Main {
                     ctx.result("{\"active\": \"" + isActive +"\"}");
                 }
             })
-            .get("/players/stats", ctx -> {
-                //TODO: finish implementing
-                //get query params
-                String startDateString = ctx.queryParam("start-date");
-                String endDateString = ctx.queryParam("end-date");
-                String name = ctx.queryParam("name");
-                String position = ctx.queryParam("position");
-                String season = ctx.queryParam("season");
-
-                //filter session stats by start and or end dates and or season
-                //filter within each sessions stat by name and or position
-                //compute total stats for each player
-                //render a table with the total stats for each player
-            })
             .post("/players/stats", ctx -> {
                SessionStat sessionStat = ctx.bodyAsClass(SessionStat.class); //fix this
                int sessionID = dbTableManager.createSession(sessionStat.getDate());
@@ -214,6 +200,11 @@ public class Main {
             })
             .get("/stats", ctx -> {
                List<Session> sessions = dbTableManager.getSessions();
+            //    for(Session session : sessions){
+            //         for(Player player : session.getPlayers()){
+            //             System.out.println(player.getName() + " is " + player.isPlaying());
+            //         }
+            //    }
                ctx.contentType("text/html");
                ctx.render("stats.jte",
                Map.of("sessions", sessions, "page", ctx.appData(statsPageKey)));

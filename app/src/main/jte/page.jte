@@ -11,10 +11,16 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Scripts -->
+    <!-- JQuery -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
     <script type="text/javascript" src="https://mottie.github.io/tablesorter/dist/js/jquery.tablesorter.min.js"></script>
     <script type="text/javascript" src="https://mottie.github.io/tablesorter/js/jquery.tablesorter.widgets.js"></script>
+    <script src="https://mottie.github.io/tablesorter/js/parsers/parser-date-range.js"></script>
+    <script type="text/javascript" src="https://mottie.github.io/tablesorter/js/widgets/widget-filter-type-insideRange.js"></script>
+    <!-- Date Range Picker -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 </head>
 <body>
     <header>

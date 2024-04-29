@@ -49,11 +49,5 @@
       </tbody>
     </thead>
   </table>
-  <script>
-  $(function(){
-        $('table').tablesorter();
-
-    })
-  </script>
   `
 )
